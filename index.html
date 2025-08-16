@@ -54,7 +54,138 @@
     </div>
 
     <!-- Profile -->
-    <div class="profile"></div>
+    <div class="profile page">
+      <div class="current-character">
+        <div class="overlay"></div>
+        <img
+          class="main-character"
+          src="./assets/main-character/эльф.jpg"
+          alt="character-elf"
+        />
+        <span class="button-change-character"></span>
+      </div>
+      <div class="text-content-profile">
+        <p class="text-profile">Your name:</p>
+        <p class="count-wins">Wins: <span class="wins-value">0</span></p>
+        <p class="count-loses">Losses: <span class="loses-value">0</span></p>
+        <div class="change-character">
+          <div class="small-character">
+            <span class="choose-character"></span>
+            <div class="overlay-small"></div>
+            <img
+              class="extra-character"
+              src="/assets/main-character/печенька.jpg"
+              alt="character-cookie"
+            />
+          </div>
+          <div class="small-character">
+            <span class="choose-character"></span>
+            <div class="overlay-small"></div>
+            <img
+              class="extra-character"
+              src="./assets/main-character/санта.jpg"
+              alt="character-santa"
+            />
+          </div>
+          <div class="small-character">
+            <span class="choose-character"></span>
+            <div class="overlay-small"></div>
+            <img
+              class="extra-character"
+              src="./assets/main-character/снеговик.jpg"
+              alt="character-snowman"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay-big"></div>
+    <!-- Fight -->
+    <div class="fight page">
+      <div class="content-fight">
+        <!-- Left part -->
+        <div class="left-part">
+          <p class="name-fight"></p>
+          <div id="my-character-container"></div>
+          <div class="alive">
+            <div class="inner-alive"></div>
+          </div>
+          <p class="current-alive">
+            <span class="my-current-alive">150</span>/150
+          </p>
+        </div>
+        <!-- Center part -->
+        <div class="center-part">
+          <p class="choose-zones-txt">
+            Please pick 1 Attack zone and 2 Defense zones
+          </p>
+          <div class="choose-zones">
+            <div class="zones">
+              <div class="attack-zones">
+                <p class="attack-zones-text">Attack Zones</p>
+                <label>
+                  Head
+                  <input type="checkbox" name="remember" value="yes" />
+                </label>
+                <label>
+                  Neck
+                  <input type="checkbox" name="remember" value="yes" />
+                </label>
+                <label>
+                  Body
+                  <input type="checkbox" name="remember" value="yes" />
+                </label>
+                <label>
+                  Belly
+                  <input type="checkbox" name="remember" value="yes" />
+                </label>
+                <label>
+                  Legs <input type="checkbox" name="remember" value="yes" />
+                </label>
+              </div>
+              <div class="defence-zones">
+                <p class="defence-zones-text">Defence Zones</p>
+                <label
+                  ><input type="checkbox" name="remember" value="yes" />
+                  Head</label
+                >
+                <label
+                  ><input type="checkbox" name="remember" value="yes" />
+                  Neck</label
+                >
+                <label
+                  ><input type="checkbox" name="remember" value="yes" />
+                  Body</label
+                >
+                <label
+                  ><input type="checkbox" name="remember" value="yes" />
+                  Belly</label
+                >
+                <label
+                  ><input type="checkbox" name="remember" value="yes" />
+                  Legs</label
+                >
+              </div>
+            </div>
+          </div>
+          <button class="btn-throw">Throw</button>
+        </div>
+        <!-- Right part -->
+        <div class="right-par">
+          <p class="name-opponent"></p>
+          <div id="opponent-container"></div>
+          <div class="alive">
+            <div class="inner-alive"></div>
+          </div>
+          <p class="current-alive">
+            <span class="opponent-current-alive">100</span>/<span
+              class="all-alive-opponent"
+              >100</span
+            >
+          </p>
+        </div>
+      </div>
+    </div>
     <!-- Tnd end:) -->
     <script defer src="./main.js"></script>
   </body>
