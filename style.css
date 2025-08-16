@@ -1,0 +1,152 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+body {
+  /* max-width: 1400px; */
+  margin: 0 auto;
+}
+
+img {
+  display: block;
+}
+
+.top-section {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 70px;
+  border-bottom: 3px solid black;
+}
+
+.main-txt {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 3vw;
+}
+
+.icon {
+  max-width: 40px;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+/* Create Character */
+
+.create-character {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20vh;
+}
+
+.create-character-title {
+  font-size: 50px;
+  margin-bottom: 3vh;
+}
+
+.create-character-subtitle {
+  font-size: 30px;
+  margin-bottom: 1vh;
+}
+#name {
+  max-width: 270px;
+  width: 100%;
+  margin-bottom: 4vh;
+  font-size: 30px;
+  border: 3px solid blue;
+  border-radius: 5px;
+}
+
+.btn-create-character {
+  display: block;
+  padding: 10px 20px;
+  font-size: 26px;
+  background-color: rgb(82, 82, 252, 0.3);
+  border: 2px solid black;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.5s;
+}
+
+.btn-create-character:hover {
+  background-color: rgb(82, 82, 252, 0.5);
+}
+
+/* Home */
+
+.home {
+  display: flex;
+  flex-direction: column;
+  display: none;
+}
+
+/* .home {
+ display: none;
+} */
+
+.btn-fight {
+  margin-top: 40vh;
+  align-self: center;
+  display: block;
+  max-width: 200px;
+  padding: 5px 20px;
+  font-size: 26px;
+  background-color: rgb(82, 82, 252, 0.3);
+  border: 2px solid black;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.5s;
+}
+
+.btn-fight:hover,
+.btn-edit:hover {
+  background-color: rgb(82, 82, 252, 0.5);
+}
+
+/* Setting */
+
+.setting {
+  display: none;
+  margin: 25px 0 0 70px;
+}
+
+.text-setting {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.btn-edit {
+  display: block;
+  margin-left: 10px;
+  max-width: 100px;
+  padding: 0 10px;
+  font-size: 24px;
+  background-color: rgb(82, 82, 252, 0.3);
+  border: 1px solid black;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.edit-name-input {
+  display: none;
+  font-size: 24px;
+  width: 100%;
+  max-width: 150px;
+}
+
+.active {
+  display: flex;
+}

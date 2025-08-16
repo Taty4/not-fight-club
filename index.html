@@ -4,6 +4,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Not-fight-club</title>
+    <link rel="stylesheet" href="./style.css" />
   </head>
-  <body></body>
+  <body>
+    <!-- Header -->
+    <div class="top-section page">
+      <p class="main-txt">Main</p>
+      <div class="icons">
+        <img
+          class="icon-home icon"
+          src="./assets/icons8-главная-100.png"
+          alt="home icon"
+        />
+        <img
+          class="icon-profile icon"
+          src="./assets/icons8-profile-50.png"
+          alt="profile icon"
+        />
+        <img
+          class="icon-setting icon"
+          src="./assets/icons8-настройки-100.png"
+          alt="setting icon"
+        />
+      </div>
+    </div>
+    <!-- Create Character -->
+    <div class="create-character page">
+      <h1 class="create-character-title">Create Your Character</h1>
+      <h3 class="create-character-subtitle">Enter character name</h3>
+      <input type="text" id="name" name="name" autocomplete="name" />
+      <button class="btn-create-character">Create Character</button>
+    </div>
+
+    <!-- Home -->
+    <div class="home page">
+      <button class="btn-fight">Fight!</button>
+    </div>
+
+    <!-- Setting -->
+    <div class="setting page">
+      <p class="text-setting">Player Name:</p>
+      <input
+        class="edit-name-input"
+        type="text"
+        name="edit-name"
+        id="edit-name"
+      />
+      <button class="btn-edit">Edit</button>
+    </div>
+
+    <!-- Profile -->
+    <div class="profile"></div>
+    <!-- Tnd end:) -->
+    <script defer src="./main.js"></script>
+  </body>
 </html>
