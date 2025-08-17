@@ -43,7 +43,9 @@
 
     <!-- Setting -->
     <div class="setting page">
-      <p class="text-setting">Player Name:</p>
+      <p class="text-setting">
+        Player Name: <span class="current-name"></span>
+      </p>
       <input
         class="edit-name-input"
         type="text"
@@ -65,7 +67,9 @@
         <span class="button-change-character"></span>
       </div>
       <div class="text-content-profile">
-        <p class="text-profile">Your name:</p>
+        <p class="text-profile">
+          Your name: <span class="current-name-profile"></span>
+        </p>
         <p class="count-wins">Wins: <span class="wins-value">0</span></p>
         <p class="count-loses">Losses: <span class="loses-value">0</span></p>
         <div class="change-character">
@@ -107,11 +111,11 @@
         <div class="left-part">
           <p class="name-fight"></p>
           <div id="my-character-container"></div>
-          <div class="alive">
-            <div class="inner-alive"></div>
+          <div class="health">
+            <div class="inner-health"></div>
           </div>
-          <p class="current-alive">
-            <span class="my-current-alive">150</span>/150
+          <p class="current-health">
+            <span class="my-current-health">150</span>/150
           </p>
         </div>
         <!-- Center part -->
@@ -125,44 +129,44 @@
                 <p class="attack-zones-text">Attack Zones</p>
                 <label>
                   Head
-                  <input type="checkbox" name="remember" value="yes" />
+                  <input type="checkbox" name="attack" value="head" />
                 </label>
                 <label>
                   Neck
-                  <input type="checkbox" name="remember" value="yes" />
+                  <input type="checkbox" name="attack" value="neck" />
                 </label>
                 <label>
                   Body
-                  <input type="checkbox" name="remember" value="yes" />
+                  <input type="checkbox" name="attack" value="body" />
                 </label>
                 <label>
                   Belly
-                  <input type="checkbox" name="remember" value="yes" />
+                  <input type="checkbox" name="attack" value="belly" />
                 </label>
                 <label>
-                  Legs <input type="checkbox" name="remember" value="yes" />
+                  Legs <input type="checkbox" name="attack" value="legs" />
                 </label>
               </div>
               <div class="defence-zones">
                 <p class="defence-zones-text">Defence Zones</p>
                 <label
-                  ><input type="checkbox" name="remember" value="yes" />
+                  ><input type="checkbox" name="defence" value="head" />
                   Head</label
                 >
                 <label
-                  ><input type="checkbox" name="remember" value="yes" />
+                  ><input type="checkbox" name="defence" value="neck" />
                   Neck</label
                 >
                 <label
-                  ><input type="checkbox" name="remember" value="yes" />
+                  ><input type="checkbox" name="defence" value="body" />
                   Body</label
                 >
                 <label
-                  ><input type="checkbox" name="remember" value="yes" />
+                  ><input type="checkbox" name="defence" value="belly" />
                   Belly</label
                 >
                 <label
-                  ><input type="checkbox" name="remember" value="yes" />
+                  ><input type="checkbox" name="defence" value="legs" />
                   Legs</label
                 >
               </div>
@@ -174,12 +178,12 @@
         <div class="right-par">
           <p class="name-opponent"></p>
           <div id="opponent-container"></div>
-          <div class="alive">
-            <div class="inner-alive"></div>
+          <div class="health">
+            <div class="inner-health"></div>
           </div>
-          <p class="current-alive">
-            <span class="opponent-current-alive">100</span>/<span
-              class="all-alive-opponent"
+          <p class="current-health">
+            <span class="opponent-current-health">100</span>/<span
+              class="all-health-opponent"
               >100</span
             >
           </p>

@@ -56,23 +56,6 @@ document.addEventListener("DOMContentLoaded", function () {
     textTopSection.textContent = "Fight";
   });
 
-  // Тут хранится переменная имени
-  let savedName = localStorage.getItem("name");
-
-  let textSetting = document.querySelector(".text-setting");
-  // Сщчранение имени при создании персонажа
-  function saveName() {
-    let nameValue = document.getElementById("name").value;
-    localStorage.setItem("name", nameValue);
-    // save in savedname current value
-    savedName = localStorage.getItem("name");
-    // change text in setting curren name
-
-    textSetting.textContent = `Player Name: ${savedName}`;
-    // save curren namein input in setting
-    document.querySelector(".edit-name-input").value = savedName;
-  }
-
   // Переход на страницу дом со страницы создания персонажа
   btnCreateCharacter.addEventListener("click", saveName);
   btnCreateCharacter.addEventListener("click", () => {
@@ -83,60 +66,71 @@ document.addEventListener("DOMContentLoaded", function () {
     topSection.style.display = "flex";
   });
 
+  // Тут хранится переменная имени
+  let savedName = localStorage.getItem("name");
+
   // При пеерезагрузке оставляю ранее введенное имя
   function getValueName() {
     if (savedName) {
       document.getElementById("name").value = savedName;
+    } else {
+      document.getElementById("name").value = "Enter your name";
     }
   }
   getValueName();
+
+  // Функия которая меняет имя во всех местах
+  function allChangeName() {
+    document.querySelector(".current-name").textContent = savedName;
+    document.querySelector(".current-name-profile").textContent = savedName;
+    document.querySelector(".name-fight").textContent = savedName;
+    document.querySelector(".edit-name-input").value = savedName;
+  }
+
+  // Сохранение имени при создании персонажа
+  function saveName() {
+    let nameValue = document.getElementById("name").value;
+    localStorage.setItem("name", nameValue);
+    savedName = localStorage.getItem("name");
+    allChangeName();
+  }
 
   // Смена текста кнопки по клику на кнопку в настройках
   let countClicks = 0;
 
   function countClick() {
     countClicks++;
-    console.log(countClicks % 2);
     if (countClicks % 2 === 0) {
       btnEdit.textContent = "Edit";
     } else {
       btnEdit.textContent = "Save";
     }
-    console.log(btnEdit);
   }
 
-  btnEdit.addEventListener("click", countClick);
-
   // change name in Setting
-  btnEdit.addEventListener("click", () => {
-    const inputSetting = document.querySelector(".edit-name-input");
-    inputSetting.classList.toggle("active");
-    savedName = document.querySelector(".edit-name-input").value;
-    localStorage.setItem("name", savedName);
+  const inputSetting = document.querySelector(".edit-name-input");
 
-    textSetting.textContent = `Player Name: ${savedName}`;
+  btnEdit.addEventListener("click", () => {
+    inputSetting.classList.toggle("active");
+    localStorage.setItem("name", inputSetting.value);
+    savedName = localStorage.getItem("name");
+    countClick();
+    allChangeName();
   });
 
-  console.log(savedName);
-  // Сраница смны персонажа
-  // Переписываю имя персонажа
-  const textProfile = document.querySelector(".text-profile");
-  textProfile.textContent = `Your name: ${savedName}`;
-  // Coxрфняю в переменные побед и проигрышей
-  let winsValue = document.querySelector(".wins-value");
-  let losesValue = document.querySelector(".loses-value");
+  /* ==================Храним колечество побед и поражений==================== */
 
-  // current character
+  // Смена персонажа
+  // Кнопки
   const btnMainCharacter = document.querySelector(".button-change-character");
-  // Block with chang character
   const changeCharacter = document.querySelector(".change-character");
-  // Click current character
+
+  // Показываем-скрываем блок с доп персонажами
   btnMainCharacter.addEventListener("click", () => {
     changeCharacter.style.display = "flex";
     document.querySelector(".overlay-big").style.display = "block";
   });
 
-  // При клике вне блока с доп персонажами закрываем блок персонажей
   document.addEventListener("mouseup", function (e) {
     if (!changeCharacter.contains(e.target)) {
       changeCharacter.style.display = "none";
@@ -144,90 +138,230 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Блок с картинкой главного персонажа
+  // Тут текущий персонаж по классу сама картинка
   const currentCharacter = document.querySelector(".main-character");
-  // Переменная с локал сторедж источника
+  // Источник главного персонажа
+
   let currentCharacterSrc = localStorage.getItem("character");
 
-  //Собираю в коллекцию кнопки доп персонажей
   const btnExtraCharacter = document.querySelectorAll(".choose-character");
 
-  // Контейнер сдля картинки персонажа на странице боя
-  const myCharacter = document.getElementById("my-character-container");
+  // Коллекция картинок доп персонажей
+  let extraCharacters = document.querySelectorAll(".extra-character");
 
-  // Первоначальное создание картинки на странице боя
-  const myCharacterCreateImage = document.createElement("img");
-  myCharacterCreateImage.src = `${currentCharacterSrc}`;
-  myCharacter.appendChild(myCharacterCreateImage);
-
-  // Прохожусь циклом по копкам выбора и при нажатии на какую то меняем местами текущего персонажа и дополнительного
+  // Клик по доп персонажам
   btnExtraCharacter.forEach((btn, index) => {
     btn.addEventListener("click", () => {
-      // Коллекция картинок с доп персонажами
-      let extraCharacters = document.querySelectorAll(".extra-character");
-
-      // Массив с источниками картинок оп персонажей
-      const arraySrc = [];
-      for (let i = 0; i < extraCharacters.length; i++) {
-        arraySrc.push(extraCharacters[i].src);
-      }
-
-      // Созраняем источник первоначальной картинки
       let a = currentCharacter.src;
-
-      // Заменяем источник изначальной картинки на тот который был кликнут
-      currentCharacter.src = `${arraySrc[index]}`;
-
-      // Сохраняем в локал источник той картинки котораятеперь встала на место основной
+      currentCharacter.src = `${extraCharacters[index].src}`;
       localStorage.setItem("character", currentCharacter.src);
-
-      // Получем источник теперь главной картинки
       currentCharacterSrc = localStorage.getItem("character");
-
-      // Меняем источник кликнутой картинки на изначально основной
       extraCharacters[index].src = `${a}`;
-
       document.querySelector(".overlay-big").style.display = "none";
       changeCharacter.style.display = "none";
 
-      // Меняем источник созданной картинки на стрранице боя
       changeCharacterinFight();
     });
   });
 
-  // БОЙ
-  // Функция которая меняет персонажа на страние боя в момент выбора персонажа на странице настроек
+  /* =========Fight============== */
+  const myCharacterContainer = document.getElementById(
+    "my-character-container"
+  );
+  const myCharacterCreateImage = document.createElement("img");
+
   function changeCharacterinFight() {
     myCharacterCreateImage.src = `${currentCharacterSrc}`;
   }
+  /* ====================================================== */
+  function startCreateCharacter() {
+    myCharacterCreateImage.alt = "Your Character";
+    myCharacterContainer.appendChild(myCharacterCreateImage);
+    if (currentCharacterSrc) {
+      myCharacterCreateImage.src = `${currentCharacterSrc}`;
+    } else {
+      myCharacterCreateImage.src = `${currentCharacter.src}`;
+    }
+  }
 
-  // Тут вставляем имя персонажа сохраненное ранее
-  const nameFight = document.querySelector(".name-fight");
-  nameFight.textContent = `${savedName}`;
+  startCreateCharacter();
 
+  /* ================================================================== */
+
+  /* ============================================================ */
+  let winsValue = document.querySelector(".wins-value");
+  let losesValue = document.querySelector(".loses-value");
+  /* ======================================================================================================================= */
   const penguin = {
     name: "Сute penguin",
-    alive: "120",
+    health: "120",
+    damage: 8,
+    critChance: 0.1,
+    critCoefficient: 1.5,
+    attackZones: 1,
+    deffendZones: 2,
     src: "./assets/main-character/пингвин.jpg",
     alt: "Opponent penguin",
   };
 
   const deer = {
     name: "Terrible deer",
-    alive: "100",
+    health: "100",
+    damage: 10,
+    critChance: 0.2,
+    critCoefficient: 1.5,
+    attackZones: 2,
+    deffendZones: 1,
     src: "./assets/main-character/олень.jpg",
     alt: "Opponent deer",
   };
 
   const snowMaiden = {
     name: "Snow Maiden",
-    alive: "150",
+    health: "150",
+    damage: 12,
+    critChance: 0.1,
+    critCoefficient: 1.5,
+    attackZones: 2,
+    deffendZones: 1,
     src: "./assets/main-character/снегурка.jpg",
     alt: "Opponent snow maiden",
   };
 
   const arrayOfOpponents = [penguin, deer, snowMaiden];
-  // Перешиваем массив
+
+  const player = {
+    /*    name: "Snow Maiden", */
+    /*  health: "150", */
+    damage: 10,
+    critChance: 0.1,
+    critCoefficient: 1.5,
+    attackZones: 1,
+    deffendZones: 2,
+  };
+
+  const allZones = ["head", "neck", "body", "belly", "legs"];
+
+  const btnThrow = document.querySelector(".btn-throw");
+  btnThrow.disabled = true;
+
+  function validateCheckbox() {
+    /* Собираем в маленький коллекцию те зоны что выбраны игроком и проверяем количество выбранных чеков */
+    const playerAttack = document.querySelectorAll(
+      "input[name='attack']:checked"
+    ).length;
+
+    const playerDefence = document.querySelectorAll(
+      "input[name='defence']:checked"
+    ).length;
+    // Блок кнопки если неправильно выьраны чекбоксы
+    if (
+      playerAttack == player.attackZones &&
+      playerDefence == player.deffendZones
+    ) {
+      btnThrow.disabled = false;
+    } else {
+      btnThrow.disabled = true;
+    }
+  }
+
+  /* =======Обрфботчик для чекбоксов============= */
+  document
+    .querySelectorAll("input[name='attack'], input[name='defence']")
+    .forEach((a) => {
+      a.addEventListener("change", validateCheckbox);
+    });
+
+  ///* =============СLick btn================ */
+  btnThrow.addEventListener("click", () => {
+    console.log(btnThrow.disabled);
+    const playerAttack = Array.from(
+      document.querySelectorAll("input[name='attack']:checked")
+    ).map((a) => a.value);
+
+    const playerDefence = Array.from(
+      document.querySelectorAll("input[name='defence']:checked")
+    ).map((a) => a.value);
+
+    // Сброс выбранныч ранее чекбщксов
+    document
+      .querySelectorAll("input[name='attack']")
+      .forEach((a) => (a.checked = false));
+
+    document
+      .querySelectorAll("input[name='defence']")
+      .forEach((a) => (a.checked = false));
+
+    const opponentAtack = getRandomZones(
+      allZones,
+      arrayOfOpponents[0].attackZones
+    );
+
+    const opponentDefense = getRandomZones(
+      allZones,
+      arrayOfOpponents[0].deffendZones
+    );
+
+    validateCheckbox();
+  });
+
+  function getRandomZones(zones, count) {
+    const allZonesCopy = zones.concat([]);
+    for (let i = zones.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [allZonesCopy[i], allZonesCopy[j]] = [allZonesCopy[j], allZonesCopy[i]];
+    }
+    return allZonesCopy.slice(0, count);
+  }
+
+  /*   
+  function calculateDamage(attacker, defender, attackZones, defendZones) {
+    let totalDamage = 0;
+
+    attackZones.forEach((zone) => {
+      const isBlocked = defendZones.includes(zone);
+      let damage = attacker.damage;
+      const isCrit = Math.random() < attacker.critChance;
+
+      if (isCrit) damage *= attacker.critCoefficient;
+
+      if (!isBlocked || isCrit) totalDamage += damage;
+    });
+    return totalDamage;
+  }
+
+  const damageToOpponent = calculateDamage(
+    player,
+    arrayOfOpponents[0],
+    playerAttack,
+    opponentAtack
+  );
+
+  const damageToPlayer = calculateDamage(
+    arrayOfOpponents[0],
+    player,
+    opponentAtack,
+    playerAttack
+  );
+
+  arrayOfOpponents[0].health -= damageToOpponent;
+  player.health -= damageToPlayer;
+
+  let battleLog = [];
+
+  battleLog.push(
+    `${savedName} attacked  ${arrayOfOpponents[0].name} to ${playerAttack.join(
+      ", "
+    )} and deal ${damageToOpponent} damage`
+  );
+
+  battleLog.push(
+    `${arrayOfOpponents[0].name} attacked  ${savedName} to ${opponentAtack.join(
+      ", "
+    )} and deal ${damageToPlayer} damage`
+  ); */
+
+  /* ==========Мешаем массив================= */
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -236,22 +370,28 @@ document.addEventListener("DOMContentLoaded", function () {
     return array;
   }
 
-  /*   shuffleArray(arrayOfOpponents); */
-
+  /* =======Тут пишем имя оппонента и его жизни полная и текущая */
   const nameOpponent = document.querySelector(".name-opponent");
-  const currentAliveOpponent = document.querySelector(
-    ".opponent-current-alive"
+  const currentHealthOpponent = document.querySelector(
+    ".opponent-current-health"
   );
-  const allAliveOpponent = document.querySelector(".all-alive-opponent");
-  currentAliveOpponent.textContent = arrayOfOpponents[0].alive;
-  allAliveOpponent.textContent = arrayOfOpponents[0].alive;
+  const allHealthOpponent = document.querySelector(".all-health-opponent");
 
-  // Сoздаю первого персонажа
+  nameOpponent.textContent = arrayOfOpponents[0].name;
+  currentHealthOpponent.textContent = arrayOfOpponents[0].health;
+  allHealthOpponent.textContent = arrayOfOpponents[0].health;
+
+  /* Тут создаем оппонента */
   const containerOpponent = document.getElementById("opponent-container");
   const firstOpponent = document.createElement("img");
   firstOpponent.src = arrayOfOpponents[0].src;
   firstOpponent.alt = arrayOfOpponents[0].alt;
   containerOpponent.appendChild(firstOpponent);
-  nameOpponent.textContent = arrayOfOpponents[0].name;
-  console.log(firstOpponent.src);
 });
+
+/* ==============Сам бой======================== */
+
+// Написать функцию которая будет созранять страницу на которой находились
+// Определиться когда будет перемешиваться массив
+// Ну и бой:)
+// Не забыть про количество побед и поражений
