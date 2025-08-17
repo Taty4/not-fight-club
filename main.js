@@ -189,25 +189,27 @@ document.addEventListener("DOMContentLoaded", function () {
   /* ================================================================== */
 
   /* ============================================================ */
+  // Спаны куда надо записать победы и поражения
   let winsValue = document.querySelector(".wins-value");
   let losesValue = document.querySelector(".loses-value");
+
   /* ======================================================================================================================= */
   const penguin = {
     name: "Сute penguin",
-    health: "120",
-    damage: 8,
-    critChance: 0.1,
+    health: 120,
+    damage: 40,
+    critChance: 0.2,
     critCoefficient: 1.5,
-    attackZones: 1,
-    deffendZones: 2,
+    attackZones: 2,
+    deffendZones: 1,
     src: "./assets/main-character/пингвин.jpg",
     alt: "Opponent penguin",
   };
 
   const deer = {
     name: "Terrible deer",
-    health: "100",
-    damage: 10,
+    health: 100,
+    damage: 25,
     critChance: 0.2,
     critCoefficient: 1.5,
     attackZones: 2,
@@ -219,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const snowMaiden = {
     name: "Snow Maiden",
     health: "150",
-    damage: 12,
+    damage: 30,
     critChance: 0.1,
     critCoefficient: 1.5,
     attackZones: 2,
@@ -232,8 +234,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const player = {
     /*    name: "Snow Maiden", */
-    /*  health: "150", */
-    damage: 10,
+    health: 150,
+    damage: 30,
     critChance: 0.1,
     critCoefficient: 1.5,
     attackZones: 1,
@@ -272,14 +274,108 @@ document.addEventListener("DOMContentLoaded", function () {
       a.addEventListener("change", validateCheckbox);
     });
 
+  let damageToOpponent = 0;
+  let damageToPlayer = 0;
+  let playerAttack;
+  let playerDefence;
+  let opponentAtack;
+  let opponentDefense;
+  let currentHealthOpponent = Number(
+    localStorage.getItem("currentHealthOpponent")
+  );
+  let currentHealthPlayer = Number(localStorage.getItem("currentHealthPlayer"));
+  const innerHealthOpponent = document.querySelector(".inner-health-opponent");
+  const innerHealthPlayer = document.querySelector(".inner-health-player");
+
+  // Переменная с результатом боя
+  let countWins = localStorage.getItem("countWins");
+  let countLoses = localStorage.getItem("countLoses");
+  const btnNewBattle = document.querySelector(".btn-new-battle");
+  const battleResult = document.querySelector(".battle-result");
+  const currentHealthOpponentText = document.querySelector(
+    ".opponent-current-health"
+  );
+  const currentHealthPlayerText = document.querySelector(".my-current-health");
+
+  if (!countWins) {
+    countWins = 0;
+  }
+  console.log(!!countWins, !!countLoses);
+  console.log(countWins, countLoses);
+  if (!countLoses) {
+    countLoses = 0;
+  }
+
+  let resultOfBattle = "";
+
+  function checkBattleOver() {
+    if (currentHealthPlayer <= 0 || currentHealthOpponent <= 0) {
+      if (currentHealthPlayer <= 0 && currentHealthOpponent <= 0) {
+        resultOfBattle = "Dead heat";
+      } else if (currentHealthPlayer <= 0) {
+        countLoses++;
+        localStorage.setItem("countLoses", countLoses);
+        updateStatistic();
+        resultOfBattle = "You lost";
+      } else {
+        countWins++;
+        localStorage.setItem("countWins", countWins);
+        updateStatistic();
+        resultOfBattle = "You won";
+      }
+
+      battleResult.style.display = "flex";
+    }
+  }
+
+  // Обновяем количество побед и поражений на странице
+  function updateStatistic() {
+    winsValue.textContent = countWins;
+    losesValue.textContent = countLoses;
+  }
+
+  updateStatistic();
+
+  btnNewBattle.addEventListener("click", () => {
+    currentHealthPlayer = player.health;
+    currentHealthOpponent = arrayOfOpponents[0].health;
+    localStorage.setItem("currentHealthOpponent", currentHealthOpponent);
+    localStorage.setItem("currentHealthPlayer", currentHealthPlayer);
+
+    currentHealthOpponentText.textContent = arrayOfOpponents[0].health;
+    currentHealthPlayerText.textContent = player.health;
+
+    setVisualHealth();
+    battleResult.style.display = "none";
+  });
+
+  // Функия которая устанавивает начальные значения виу
+  function setVisualHealth() {
+    innerHealthPlayer.style.width = `${
+      (currentHealthPlayer / player.health) * 100
+    }%`;
+
+    innerHealthOpponent.style.width = `${
+      (currentHealthOpponent / arrayOfOpponents[0].health) * 100
+    }%`;
+    if (currentHealthOpponent <= 0 || currentHealthPlayer <= 0) {
+      battleResult.style.display = "flex";
+    }
+    currentHealthOpponentText.textContent = currentHealthOpponent;
+    currentHealthPlayerText.textContent = currentHealthPlayer;
+  }
+
+  setVisualHealth();
+  console.log(!!currentHealthPlayer);
+  console.log(currentHealthPlayer);
+
   ///* =============СLick btn================ */
   btnThrow.addEventListener("click", () => {
-    console.log(btnThrow.disabled);
-    const playerAttack = Array.from(
+    playerAttack = Array.from(
       document.querySelectorAll("input[name='attack']:checked")
     ).map((a) => a.value);
 
-    const playerDefence = Array.from(
+    playerDefence = Array.from(
       document.querySelectorAll("input[name='defence']:checked")
     ).map((a) => a.value);
 
@@ -292,29 +388,62 @@ document.addEventListener("DOMContentLoaded", function () {
       .querySelectorAll("input[name='defence']")
       .forEach((a) => (a.checked = false));
 
-    const opponentAtack = getRandomZones(
-      allZones,
-      arrayOfOpponents[0].attackZones
-    );
+    // Тут пишем функию которая перемешивает массив всех зон (раотает при каждом клике на кнопку throw)
+    function getRandomZones(zones, count) {
+      const allZonesCopy = zones.concat([]);
+      for (let i = zones.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allZonesCopy[i], allZonesCopy[j]] = [allZonesCopy[j], allZonesCopy[i]];
+      }
+      return allZonesCopy.slice(0, count);
+    }
 
-    const opponentDefense = getRandomZones(
+    // Тут сoздаем маленькие массивы из атак и защит противника
+    opponentAtack = getRandomZones(allZones, arrayOfOpponents[0].attackZones);
+
+    opponentDefense = getRandomZones(
       allZones,
       arrayOfOpponents[0].deffendZones
     );
 
+    // Тут считаю урон нанесенный противнику и герою
+    damageToOpponent = calculateDamage(
+      player,
+      arrayOfOpponents[0],
+      playerAttack,
+      opponentDefense
+    );
+
+    damageToPlayer = calculateDamage(
+      arrayOfOpponents[0],
+      player,
+      opponentAtack,
+      playerDefence
+    );
+
+    // Пересчитываю новые значение здоровья противника и игрока
+    currentHealthOpponent -= damageToOpponent;
+    currentHealthPlayer -= damageToPlayer;
+
+    // Запишем в локал сторедж текущее значение здоровья
+    localStorage.setItem("currentHealthOpponent", currentHealthOpponent);
+    localStorage.setItem("currentHealthPlayer", currentHealthPlayer);
+
+    // Записываем лог боя в массив
+    writeLogOfButtle();
     validateCheckbox();
+    // Тут вызываем функцию которая уменьшает шкалу здоровья
+    changeVisualDamage(innerHealthPlayer, currentHealthPlayer, player.health);
+    changeVisualDamage(
+      innerHealthOpponent,
+      currentHealthOpponent,
+      arrayOfOpponents[0].health
+    );
+    checkBattleOver();
+    console.log(battleLog);
   });
 
-  function getRandomZones(zones, count) {
-    const allZonesCopy = zones.concat([]);
-    for (let i = zones.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [allZonesCopy[i], allZonesCopy[j]] = [allZonesCopy[j], allZonesCopy[i]];
-    }
-    return allZonesCopy.slice(0, count);
-  }
-
-  /*   
+  // В этой функии считаю какой урон был нанесен
   function calculateDamage(attacker, defender, attackZones, defendZones) {
     let totalDamage = 0;
 
@@ -330,38 +459,41 @@ document.addEventListener("DOMContentLoaded", function () {
     return totalDamage;
   }
 
-  const damageToOpponent = calculateDamage(
-    player,
-    arrayOfOpponents[0],
-    playerAttack,
-    opponentAtack
-  );
-
-  const damageToPlayer = calculateDamage(
-    arrayOfOpponents[0],
-    player,
-    opponentAtack,
-    playerAttack
-  );
-
-  arrayOfOpponents[0].health -= damageToOpponent;
-  player.health -= damageToPlayer;
-
+  // Массив в котором xраняться логи боя
   let battleLog = [];
 
-  battleLog.push(
-    `${savedName} attacked  ${arrayOfOpponents[0].name} to ${playerAttack.join(
-      ", "
-    )} and deal ${damageToOpponent} damage`
-  );
+  // Эта функция записывает лог боя в массив
+  function writeLogOfButtle() {
+    battleLog.push(
+      `${savedName} attacked  ${
+        arrayOfOpponents[0].name
+      } to ${playerAttack.join(", ")} and deal ${damageToOpponent} damage`
+    );
 
-  battleLog.push(
-    `${arrayOfOpponents[0].name} attacked  ${savedName} to ${opponentAtack.join(
-      ", "
-    )} and deal ${damageToPlayer} damage`
-  ); */
+    /*  battleLog.push(
+      `${
+        arrayOfOpponents[0].name
+      } attacked  ${savedName} to ${opponentAtack.join(
+        ", "
+      )} and deal ${damageToPlayer} damage`
+    ); */
+    opponentAtack.forEach((zone) => {
+      console.log(zone);
+      battleLog.push(
+        `${arrayOfOpponents[0].name} attacked  ${savedName} to ${zone} and deal ${damageToPlayer} damage`
+      );
+    });
+  }
 
-  /* ==========Мешаем массив================= */
+  // Функия которая будет менять и сохранять текущее визуаьное и текстовое значение урона
+
+  function changeVisualDamage(character, currentHealth, allHealth) {
+    character.style.width = `${(currentHealth / allHealth) * 100}%`;
+    currentHealthOpponentText.textContent = currentHealthOpponent;
+    currentHealthPlayerText.textContent = currentHealthPlayer;
+  }
+
+  /* ==========Мешаем массив c противниками================= */
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -370,15 +502,12 @@ document.addEventListener("DOMContentLoaded", function () {
     return array;
   }
 
-  /* =======Тут пишем имя оппонента и его жизни полная и текущая */
+  /* =======Тут пишем имя оппонента и его жизни полная */
   const nameOpponent = document.querySelector(".name-opponent");
-  const currentHealthOpponent = document.querySelector(
-    ".opponent-current-health"
-  );
   const allHealthOpponent = document.querySelector(".all-health-opponent");
 
   nameOpponent.textContent = arrayOfOpponents[0].name;
-  currentHealthOpponent.textContent = arrayOfOpponents[0].health;
+
   allHealthOpponent.textContent = arrayOfOpponents[0].health;
 
   /* Тут создаем оппонента */
@@ -393,5 +522,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Написать функцию которая будет созранять страницу на которой находились
 // Определиться когда будет перемешиваться массив
-// Ну и бой:)
-// Не забыть про количество побед и поражений
+// Оставляю на завтра single page application
