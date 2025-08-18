@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  /* ================В этой части визуа страницы боя===================== */
+  /* =================================================================================== */
   const myCharacterContainer = document.getElementById(
     "my-character-container"
   );
@@ -201,8 +201,8 @@ document.addEventListener("DOMContentLoaded", function () {
     damage: 40,
     critChance: 0.2,
     critCoefficient: 1.5,
-    attackZones: 2,
-    deffendZones: 1,
+    attackZones: 1,
+    deffendZones: 2,
     src: "./assets/main-character/пингвин.jpg",
     alt: "Opponent penguin",
   };
@@ -214,8 +214,8 @@ document.addEventListener("DOMContentLoaded", function () {
     damage: 25,
     critChance: 0.2,
     critCoefficient: 1.5,
-    attackZones: 2,
-    deffendZones: 1,
+    attackZones: 1,
+    deffendZones: 3,
     src: "./assets/main-character/олень.jpg",
     alt: "Opponent deer",
   };
@@ -237,6 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const allZones = ["head", "neck", "body", "belly", "legs"];
 
   const player = {
+    name: savedName,
     health: 150,
     damage: 30,
     critChance: 0.1,
@@ -291,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
     IndexOfCurrentOpponent = Math.floor(
       Math.random() * arrayOfOpponents.length
     );
-    console.log(IndexOfCurrentOpponent);
+
     // Получим сам обьект с противником по его индексу
     currentOpponnent = arrayOfOpponents[IndexOfCurrentOpponent];
 
@@ -394,11 +395,19 @@ document.addEventListener("DOMContentLoaded", function () {
     allHealthOpponentText.textContent = currentOpponnent.health;
   }
 
+  let battleLogs = JSON.parse(localStorage.getItem("battleLogs")) || [];
+  const battleResultText = document.querySelector(".log-result");
+  console.log(localStorage.getItem("battleLogs"));
+  writeLogs();
   //   Клик по кнопке новы баттл,должна закрывать само всплывающее окно,
   // отрисовывать нового противника,  возвращать визуальную шкалу здоровья на 100%, устанавливать
   // числовое и текстовое состоянии здоровья текущего на первоначальное значение, у противника менять общее здоровье
   //   То есть чтобы визуально шкала обновилась полностью и внешене и по значенияь
   btnNewBattle.addEventListener("click", () => {
+    battleLogs = [];
+    localStorage.removeItem("battleLogs");
+    battleResultText.innerHTML = "";
+    writeLogs();
     localStorage.removeItem("IndexOfCurrentOpponent");
     createOpponent();
     resetValueHealth();
@@ -439,6 +448,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // В этой функии считаю какой урон был нанесен
   function calculateDamage(attacker, defender, attackZones, defendZones) {
     let totalDamage = 0;
+    const events = [];
 
     attackZones.forEach((zone) => {
       const isBlocked = defendZones.includes(zone);
@@ -449,11 +459,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (isCrit) damage *= attacker.critCoefficient;
 
-      if (!isBlocked || isCrit) totalDamage += damage;
+      const dealDamage = !isBlocked || isCrit ? damage : 0;
+      totalDamage += dealDamage;
+      events.push({
+        attacker: attacker.name,
+        defender: defender.name,
+        target: zone,
+        blocked: isBlocked,
+        crit: isCrit,
+        damage: dealDamage,
+      });
     });
-    return totalDamage;
+    return { totalDamage, events };
   }
 
+  function writeLogs() {
+    battleLogs.forEach((event) => {
+      const p = document.createElement("p");
+      p.innerHTML = event;
+
+      battleResultText.appendChild(p);
+      battleResultText.scrollTop = battleResultText.scrollHeight;
+    });
+  }
+  /* ==================================================================================================== */
   btnThrow.addEventListener("click", () => {
     playerAttack = Array.from(
       document.querySelectorAll("input[name='attack']:checked")
@@ -488,19 +517,23 @@ document.addEventListener("DOMContentLoaded", function () {
     opponentDefense = getRandomZones(allZones, currentOpponnent.deffendZones);
 
     // Тут считаю урон нанесенный противнику и герою
-    damageToOpponent = calculateDamage(
+    const resultPlayer = calculateDamage(
       player,
       currentOpponnent,
       playerAttack,
       opponentDefense
     );
 
-    damageToPlayer = calculateDamage(
+    damageToOpponent = resultPlayer.totalDamage;
+
+    const resultOpponent = calculateDamage(
       currentOpponnent,
       player,
       opponentAtack,
       playerDefence
     );
+
+    damageToPlayer = resultOpponent.totalDamage;
 
     // Пересчитываю новые значение здоровья противника и игрока
     currentHealthOpponent -= damageToOpponent;
@@ -513,7 +546,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Записываю индекс того перса кем играем
     localStorage.setItem("IndexOfCurrentOpponent", IndexOfCurrentOpponent);
 
-    // Записываем лог боя в массив
+    // Вывожу на экран запись лога
     validateCheckbox();
     // Тут вызываем функцию которая уменьшает шкалу здоровья
     changeVisualDamage(innerHealthPlayer, currentHealthPlayer, player.health);
@@ -522,6 +555,24 @@ document.addEventListener("DOMContentLoaded", function () {
       currentHealthOpponent,
       currentOpponnent.health
     );
+
+    // Вывожу на экран запись лога
+
+    const allEvents = [...resultPlayer.events, ...resultOpponent.events];
+
+    allEvents.forEach((event) => {
+      const logText = battleEvent(event);
+
+      const p = document.createElement("p");
+      p.innerHTML = logText;
+
+      battleResultText.appendChild(p);
+
+      battleLogs.push(logText);
+
+      localStorage.setItem("battleLogs", JSON.stringify(battleLogs));
+      battleResultText.scrollTop = battleResultText.scrollHeight;
+    });
     checkBattleOver();
   });
 
@@ -530,5 +581,38 @@ document.addEventListener("DOMContentLoaded", function () {
     character.style.width = `${(currentHealth / allHealth) * 100}%`;
     currentHealthOpponentText.textContent = currentHealthOpponent;
     currentHealthPlayerText.textContent = currentHealthPlayer;
+  }
+
+  /* ================================Запись лога====================================== */
+
+  /*  function addLog(message) {
+    const battleResultText = docoment.querySelector("..log-result");
+    battleResultText.textContent += message + "\n";
+    battleResultText.scrollTop = battleResultText.scrollHeight;
+  } */
+
+  // Функция генерации текста хода
+  function battleEvent(event) {
+    const { attacker, defender, target, blocked, crit, damage } = event;
+
+    let attackerSpan = `<span class="attacker">${attacker}</span>`;
+    let defenderSpan = `<span class="defender">${defender}</span>`;
+    let targetSpan = `<span class="target">${target}</span>`;
+    let damageSpan = `<span class="damage">${damage} damage</span>`;
+
+    if (event.attacker === savedName) {
+      attackerSpan = `<span class="attacker player">${attacker}</span>`;
+      damageSpan = `<span class="damage player">${damage} damage</span>`;
+    } else {
+      defenderSpan = `<span class="defender player">${defender}</span>`;
+    }
+
+    if (blocked && damage === 0) {
+      return `${attackerSpan} attacked ${defenderSpan} to ${targetSpan} but ${defenderSpan} block the attack.`;
+    }
+    if (crit) {
+      return `${attackerSpan} attacked ${defenderSpan} to ${targetSpan}, ${defenderSpan} tried to block but ${attacker} was very lucky and crit for ${damageSpan}.`;
+    }
+    return `${attackerSpan} attacked ${defenderSpan} to ${targetSpan} and dealt  ${damageSpan}.`;
   }
 });
