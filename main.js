@@ -1,21 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Change pages
-  const pages = document.querySelectorAll(".page");
-  const homePage = document.querySelector(".home");
-  const settingPage = document.querySelector(".setting");
-  const profilePage = document.querySelector(".profile");
-  const topSection = document.querySelector(".top-section");
-  const fightPage = document.querySelector(".fight");
-
-  // Buttons
-  const btnCreateCharacter = document.querySelector(".btn-create-character");
-  const btnEdit = document.querySelector(".btn-edit");
-  const btnHome = document.querySelector(".icon-home");
-  const btnProfile = document.querySelector(".icon-profile");
-  const btnSetting = document.querySelector(".icon-setting");
-  const textTopSection = document.querySelector(".main-txt");
-  const btnFight = document.querySelector(".btn-fight");
-
   //Переход настраницу настроек
   btnSetting.addEventListener("click", () => {
     pages.forEach((page) => {
@@ -106,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
       btnEdit.textContent = "Save";
     }
   }
-
+  const btnEdit = document.querySelector(".btn-edit");
   // change name in Setting
   const inputSetting = document.querySelector(".edit-name-input");
 
@@ -195,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* ======================================================================================================================= */
   const penguin = {
+    id: 1,
     name: "Сute penguin",
     health: 120,
     damage: 40,
@@ -207,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   const deer = {
+    id: 2,
     name: "Terrible deer",
     health: 100,
     damage: 25,
@@ -219,8 +204,9 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   const snowMaiden = {
+    id: 3,
     name: "Snow Maiden",
-    health: "150",
+    health: 150,
     damage: 30,
     critChance: 0.1,
     critCoefficient: 1.5,
@@ -300,8 +286,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!countWins) {
     countWins = 0;
   }
-  console.log(!!countWins, !!countLoses);
-  console.log(countWins, countLoses);
   if (!countLoses) {
     countLoses = 0;
   }
@@ -333,18 +317,62 @@ document.addEventListener("DOMContentLoaded", function () {
     winsValue.textContent = countWins;
     losesValue.textContent = countLoses;
   }
-
   updateStatistic();
 
-  btnNewBattle.addEventListener("click", () => {
+  let IndexOfCurrentOpponent = Math.floor(
+    Math.random() * arrayOfOpponents.length
+  );
+  let currentOpponnent = arrayOfOpponents[IndexOfCurrentOpponent];
+
+  /*  if (!currentHealthOpponent) {
+    currentHealthOpponent = currentOpponnent.health;
+  }
+
+  if (!currentHealthPlayer) {
     currentHealthPlayer = player.health;
-    currentHealthOpponent = arrayOfOpponents[0].health;
+  }
+ */
+
+  function updateValueHealth() {
+    currentHealthPlayer = player.health;
+    currentHealthOpponent = currentOpponnent.health;
+
     localStorage.setItem("currentHealthOpponent", currentHealthOpponent);
     localStorage.setItem("currentHealthPlayer", currentHealthPlayer);
 
-    currentHealthOpponentText.textContent = arrayOfOpponents[0].health;
+    currentHealthOpponentText.textContent = currentOpponnent.health;
     currentHealthPlayerText.textContent = player.health;
 
+    const allHealthOpponent = document.querySelector(".all-health-opponent");
+    allHealthOpponent.textContent = currentOpponnent.health;
+    createOpponent();
+  }
+
+  if (!IndexOfCurrentOpponent) {
+    IndexOfCurrentOpponent = Math.floor(
+      Math.random() * arrayOfOpponents.length
+    );
+  }
+
+  function createOpponent() {
+    let IndexOfCurrentOpponent = Math.floor(
+      Math.random() * arrayOfOpponents.length
+    );
+    let currentOpponnent = arrayOfOpponents[IndexOfCurrentOpponent];
+    const nameOpponent = document.querySelector(".name-opponent");
+
+    const containerOpponent = document.getElementById("opponent-container");
+    const firstOpponent = document.createElement("img");
+    firstOpponent.src = currentOpponnent.src;
+    firstOpponent.alt = currentOpponnent.alt;
+    containerOpponent.appendChild(firstOpponent);
+
+    nameOpponent.textContent = currentOpponnent.name;
+  }
+
+  btnNewBattle.addEventListener("click", () => {
+    updateValueHealth();
+    createOpponent();
     setVisualHealth();
     battleResult.style.display = "none";
   });
@@ -356,18 +384,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }%`;
 
     innerHealthOpponent.style.width = `${
-      (currentHealthOpponent / arrayOfOpponents[0].health) * 100
+      (currentHealthOpponent / currentOpponnent.health) * 100
     }%`;
     if (currentHealthOpponent <= 0 || currentHealthPlayer <= 0) {
       battleResult.style.display = "flex";
     }
-    currentHealthOpponentText.textContent = currentHealthOpponent;
-    currentHealthPlayerText.textContent = currentHealthPlayer;
   }
 
   setVisualHealth();
-  console.log(!!currentHealthPlayer);
-  console.log(currentHealthPlayer);
 
   ///* =============СLick btn================ */
   btnThrow.addEventListener("click", () => {
@@ -399,23 +423,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Тут сoздаем маленькие массивы из атак и защит противника
-    opponentAtack = getRandomZones(allZones, arrayOfOpponents[0].attackZones);
+    opponentAtack = getRandomZones(allZones, currentOpponnent.attackZones);
 
-    opponentDefense = getRandomZones(
-      allZones,
-      arrayOfOpponents[0].deffendZones
-    );
+    opponentDefense = getRandomZones(allZones, currentOpponnent.deffendZones);
 
     // Тут считаю урон нанесенный противнику и герою
     damageToOpponent = calculateDamage(
       player,
-      arrayOfOpponents[0],
+      currentOpponnent,
       playerAttack,
       opponentDefense
     );
 
     damageToPlayer = calculateDamage(
-      arrayOfOpponents[0],
+      currentOpponnent,
       player,
       opponentAtack,
       playerDefence
@@ -437,10 +458,9 @@ document.addEventListener("DOMContentLoaded", function () {
     changeVisualDamage(
       innerHealthOpponent,
       currentHealthOpponent,
-      arrayOfOpponents[0].health
+      currentOpponnent.health
     );
     checkBattleOver();
-    console.log(battleLog);
   });
 
   // В этой функии считаю какой урон был нанесен
@@ -465,9 +485,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Эта функция записывает лог боя в массив
   function writeLogOfButtle() {
     battleLog.push(
-      `${savedName} attacked  ${
-        arrayOfOpponents[0].name
-      } to ${playerAttack.join(", ")} and deal ${damageToOpponent} damage`
+      `${savedName} attacked  ${currentOpponnent.name} to ${playerAttack.join(
+        ", "
+      )} and deal ${damageToOpponent} damage`
     );
 
     /*  battleLog.push(
@@ -478,9 +498,8 @@ document.addEventListener("DOMContentLoaded", function () {
       )} and deal ${damageToPlayer} damage`
     ); */
     opponentAtack.forEach((zone) => {
-      console.log(zone);
       battleLog.push(
-        `${arrayOfOpponents[0].name} attacked  ${savedName} to ${zone} and deal ${damageToPlayer} damage`
+        `${currentOpponnent.name} attacked  ${savedName} to ${zone} and deal ${damageToPlayer} damage`
       );
     });
   }
@@ -492,31 +511,12 @@ document.addEventListener("DOMContentLoaded", function () {
     currentHealthOpponentText.textContent = currentHealthOpponent;
     currentHealthPlayerText.textContent = currentHealthPlayer;
   }
-
-  /* ==========Мешаем массив c противниками================= */
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-
-  /* =======Тут пишем имя оппонента и его жизни полная */
-  const nameOpponent = document.querySelector(".name-opponent");
-  const allHealthOpponent = document.querySelector(".all-health-opponent");
-
-  nameOpponent.textContent = arrayOfOpponents[0].name;
-
-  allHealthOpponent.textContent = arrayOfOpponents[0].health;
-
-  /* Тут создаем оппонента */
-  const containerOpponent = document.getElementById("opponent-container");
-  const firstOpponent = document.createElement("img");
-  firstOpponent.src = arrayOfOpponents[0].src;
-  firstOpponent.alt = arrayOfOpponents[0].alt;
-  containerOpponent.appendChild(firstOpponent);
 });
+/* ==========Мешаем массив c противниками================= */
+
+/* =======Тут пишем имя оппонента и его жизни полная */
+
+// Фукция которая отрисовывает противника
 
 /* ==============Сам бой======================== */
 
