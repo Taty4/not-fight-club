@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Источник главного персонажа
   let currentCharacterSrc = localStorage.getItem("character");
-
+  console.log(currentCharacter.src);
   // Клик по доп персонажам
   btnExtraCharacter.forEach((btn, index) => {
     btn.addEventListener("click", () => {
@@ -157,12 +157,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       currentCharacter.src = `${extraCharacters[index].src}`;
       extraCharacters[index].src = `${a}`;
-
+      currentCharacterSrc = currentCharacter.src;
       localStorage.setItem("character", currentCharacter.src);
 
       document.querySelector(".overlay-big").style.display = "none";
       changeCharacter.style.display = "none";
-
       changeCharacterinFight(); /* импортировать эту функцию */
     });
   });
@@ -412,6 +411,12 @@ document.addEventListener("DOMContentLoaded", function () {
     createOpponent();
     resetValueHealth();
     battleResult.style.display = "none";
+    pages.forEach((page) => {
+      page.style.display = "none";
+    });
+    profilePage.style.display = "flex";
+    topSection.style.display = "flex";
+    textTopSection.textContent = "Profile";
   });
 
   /* ==================================БОЙ================================================= */
