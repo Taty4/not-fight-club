@@ -156,6 +156,7 @@ img {
 .profile {
   display: none;
   margin-top: 25px;
+  padding: 0 50px;
 }
 
 .current-character {
@@ -191,6 +192,8 @@ img {
 .main-character {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  aspect-ratio: 3/4;
 }
 
 .overlay {
@@ -232,9 +235,9 @@ img {
 .change-character {
   position: relative;
   display: none;
-  gap: 3vw;
+  gap: 10px;
   margin-top: 5vw;
-  margin-left: 3vw;
+  margin-left: 10px;
   border: 2px solid rgb(143 195 217);
   padding: 10px 15px;
   z-index: 10;
@@ -248,7 +251,9 @@ img {
 
 .small-character img {
   width: 100%;
-  height: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 2/3;
 }
 
 .overlay-small {
@@ -309,7 +314,7 @@ img {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding-bottom: 15px;
+  padding: 0 60px 15px;
 }
 
 .name-fight,
@@ -325,10 +330,12 @@ img {
   width: 100%;
 }
 
-#my-character-container img,
-#opponent-container img {
-  width: 100%;
+#opponent-container img,
+#my-character-container img {
   height: 100%;
+  width: 100%;
+  object-fit: contain;
+  aspect-ratio: 2/3;
 }
 
 .health {

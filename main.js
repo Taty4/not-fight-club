@@ -204,7 +204,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ==================== Текущий персонаж ====================
-  // ==================== Текущий персонаж ====================
   const currentCharacter = document.querySelector(".main-character");
   let currentCharacterSrc = localStorage.getItem("character");
 
@@ -223,7 +222,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  /* =================================================================================== */
   const myCharacterContainer = document.getElementById(
     "my-character-container"
   );
@@ -250,46 +248,72 @@ document.addEventListener("DOMContentLoaded", function () {
   let losesValue = document.querySelector(".loses-value");
 
   /* =========================== В этой части по логике боя больше======================================== */
-  const penguin = {
+  const boy = {
     id: 1,
-    name: "Сute penguin",
+    name: "Shy boy",
     health: 120,
     damage: 40,
     critChance: 0.2,
     critCoefficient: 1.5,
     attackZones: 1,
     deffendZones: 2,
-    src: "./assets/main-character/пингвин.jpg",
-    alt: "Opponent penguin",
+    src: "./assets/opponents/boywebP.webp",
+    alt: "Opponent boy",
   };
 
-  const deer = {
+  const mag = {
     id: 2,
-    name: "Terrible deer",
-    health: 100,
+    name: "Powerful magician",
+    health: 160,
     damage: 25,
     critChance: 0.2,
     critCoefficient: 1.5,
     attackZones: 1,
     deffendZones: 3,
-    src: "./assets/main-character/олень.jpg",
-    alt: "Opponent deer",
+    src: "./assets/opponents/mag-oppwebP.webp",
+    alt: "Opponent mag",
   };
 
-  const snowMaiden = {
+  const man = {
     id: 3,
-    name: "Snow Maiden",
+    name: "Cheerful man",
     health: 150,
     damage: 30,
     critChance: 0.1,
     critCoefficient: 1.5,
     attackZones: 2,
     deffendZones: 1,
-    src: "./assets/main-character/снегурка.jpg",
-    alt: "Opponent snow maiden",
+    src: "./assets/opponents/man-oppwebP.webp",
+    alt: "Opponent man",
   };
 
-  const arrayOfOpponents = [penguin, deer, snowMaiden];
+  const girl = {
+    id: 4,
+    name: "Cheeky girl",
+    health: 140,
+    damage: 30,
+    critChance: 0.1,
+    critCoefficient: 1.5,
+    attackZones: 2,
+    deffendZones: 1,
+    src: "./assets/opponents/women-oppwebP.webp",
+    alt: "Opponent man",
+  };
+
+  const girl2 = {
+    id: 5,
+    name: "Cutie",
+    health: 130,
+    damage: 30,
+    critChance: 0.1,
+    critCoefficient: 1.5,
+    attackZones: 2,
+    deffendZones: 1,
+    src: "./assets/opponents/woman2webP.webp",
+    alt: "Opponent girl2",
+  };
+
+  const arrayOfOpponents = [boy, mag, man, girl, girl2];
   const allZones = ["head", "neck", "body", "belly", "legs"];
 
   const player = {
@@ -348,7 +372,7 @@ document.addEventListener("DOMContentLoaded", function () {
     IndexOfCurrentOpponent = Math.floor(
       Math.random() * arrayOfOpponents.length
     );
-
+    console.log(imgOpponent);
     // Получим сам обьект с противником по его индексу
     currentOpponnent = arrayOfOpponents[IndexOfCurrentOpponent];
 
