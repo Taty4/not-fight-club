@@ -8,7 +8,7 @@
   </head>
   <body>
     <!-- Header -->
-    <div class="top-section page">
+    <div class="top-section page" id="top-section">
       <p class="main-txt">Main</p>
       <div class="icons">
         <img
@@ -29,7 +29,7 @@
       </div>
     </div>
     <!-- Create Character -->
-    <div class="create-character page">
+    <div id="login" class="create-character page">
       <h1 class="create-character-title">Create Your Character</h1>
       <h3 class="create-character-subtitle">Enter character name</h3>
       <input type="text" id="name" name="name" autocomplete="name" />
@@ -37,12 +37,12 @@
     </div>
 
     <!-- Home -->
-    <div class="home page">
+    <div id="home" class="home page">
       <button class="btn-fight">Fight!</button>
     </div>
 
     <!-- Setting -->
-    <div class="setting page">
+    <div id="setting" class="setting page">
       <p class="text-setting">
         Player Name: <span class="current-name"></span>
       </p>
@@ -56,7 +56,7 @@
     </div>
 
     <!-- Profile -->
-    <div class="profile page">
+    <div id="profile" class="profile page">
       <div class="current-character">
         <div class="overlay"></div>
         <img
@@ -78,8 +78,17 @@
             <div class="overlay-small"></div>
             <img
               class="extra-character"
-              src="/assets/main-character/печенька.jpg"
+              src="./assets/main-character/эльф.jpg"
               alt="character-cookie"
+            />
+          </div>
+          <div class="small-character">
+            <span class="choose-character"></span>
+            <div class="overlay-small"></div>
+            <img
+              class="extra-character"
+              src="/assets/main-character/печенька.jpg"
+              alt="character-snowman"
             />
           </div>
           <div class="small-character">
@@ -105,7 +114,7 @@
     </div>
     <div class="overlay-big"></div>
     <!-- Fight -->
-    <div class="fight page">
+    <div id="fight" class="fight page">
       <div class="content-fight">
         <!-- Left part -->
         <div class="left-part">

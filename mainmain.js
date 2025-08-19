@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const profilePage = document.querySelector(".profile");
   const topSection = document.querySelector(".top-section");
   const fightPage = document.querySelector(".fight");
+  const createPage = document.querySelector(".create-character");
 
   //   Кнопки которые совершают переходы
   const btnCreateCharacter = document.querySelector(".btn-create-character");
@@ -16,60 +17,118 @@ document.addEventListener("DOMContentLoaded", function () {
   const textTopSection = document.querySelector(".main-txt");
   const btnFight = document.querySelector(".btn-fight");
 
+  /* =====================Пробую писать роутинг========================== */
+  let savedName = localStorage.getItem("name");
+  // ==================== Функция показа страницы ===================
+  function showPage(page, title) {
+    pages.forEach((p) => (p.style.display = "none")); // скрываем все
+    page.style.display = "flex"; // показываем нужную
+    topSection.style.display = "flex";
+    textTopSection.textContent = title || "";
+  }
+
+  // ==================== Объект роутинга ===================
+  const routes = {
+    home: () => showPage(homePage, "Main"),
+    setting: () => showPage(settingPage, "Setting"),
+    profile: () => showPage(profilePage, "Profile"),
+    fight: () => showPage(fightPage, "Fight"),
+    create: () => showPage(createPage, "Create character"), // для первого визита
+  };
+
+  // ==================== Функция роутера ===================
+  function router() {
+    let hash = location.hash.slice(1); // убираем #
+
+    // Если первый визит, показываем страницу создания персонажа
+
+    if (!hash) {
+      hash = "home";
+    }
+    if (!savedName) {
+      hash = "create"; // дефолтная страница
+    }
+
+    if (routes[hash]) {
+      routes[hash]();
+    } else {
+      routes.home(); // fallback
+    }
+  }
+
+  let IndexOfCurrentOpponent = localStorage.getItem("IndexOfCurrentOpponent");
+  console.log(!!IndexOfCurrentOpponent + " индекс ри загрузке");
+  // ==================== Привязка кнопок ===================
+  btnHome.addEventListener("click", () => (location.hash = "home"));
+  btnSetting.addEventListener("click", () => (location.hash = "setting"));
+  btnProfile.addEventListener("click", () => (location.hash = "profile"));
+  btnFight.addEventListener("click", () => {
+    location.hash = "fight";
+  });
+  btnCreateCharacter.addEventListener("click", () => {
+    saveName(); // твоя функция сохранения имени
+    location.hash = "home"; // переходим на home после создания
+  });
+
+  // ==================== Слушатели ===================
+  window.addEventListener("hashchange", router);
+  window.addEventListener("load", router);
+
+  /* ================================================================================== */
+
   //Переход настраницу настроек
-  btnSetting.addEventListener("click", () => {
+  /*   btnSetting.addEventListener("click", () => {
     pages.forEach((page) => {
       page.style.display = "none";
     });
     settingPage.style.display = "flex";
     topSection.style.display = "flex";
     textTopSection.textContent = "Setting";
-  });
+  }); */
 
   // Переход на страницу дом
-  btnHome.addEventListener("click", () => {
+  /*   btnHome.addEventListener("click", () => {
     pages.forEach((page) => {
       page.style.display = "none";
     });
     homePage.style.display = "flex";
     topSection.style.display = "flex";
     textTopSection.textContent = "Main";
-  });
+  }); */
 
   // Переход на страницу профиля
-  btnProfile.addEventListener("click", () => {
+  /*   btnProfile.addEventListener("click", () => {
     pages.forEach((page) => {
       page.style.display = "none";
     });
     profilePage.style.display = "flex";
     topSection.style.display = "flex";
     textTopSection.textContent = "Profile";
-  });
+  }); */
 
   // Переход на страницу боя
-  btnFight.addEventListener("click", () => {
+  /*   btnFight.addEventListener("click", () => {
     pages.forEach((page) => {
       page.style.display = "none";
     });
     fightPage.style.display = "flex";
     topSection.style.display = "flex";
     textTopSection.textContent = "Fight";
-  });
+  }); */
 
   // Переход на страницу дом со страницы создания персонажа
-  btnCreateCharacter.addEventListener("click", saveName);
+  /*  btnCreateCharacter.addEventListener("click", saveName);
   btnCreateCharacter.addEventListener("click", () => {
     pages.forEach((page) => {
       page.style.display = "none";
     });
     homePage.style.display = "flex";
     topSection.style.display = "flex";
-  });
+  }); */
 
   /*==================================Смена имени со страницы создания персонажа====================================  */
 
   // Перемнная с именем
-  let savedName = localStorage.getItem("name");
 
   // При пеерезагрузке оставляю ранее введенное имя, если имя уже сохранено указываем его
   function getValueName() {
@@ -96,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
     savedName = localStorage.getItem("name");
     allChangeName();
   }
-
+  saveName();
   /* =======================Смена имени на страние настроек ===================================== */
 
   const btnEdit = document.querySelector(".btn-edit");
@@ -144,25 +203,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Тут текущий персонаж по классу, сама картинка
+  // ==================== Текущий персонаж ====================
+  // ==================== Текущий персонаж ====================
   const currentCharacter = document.querySelector(".main-character");
-
-  // Источник главного персонажа
   let currentCharacterSrc = localStorage.getItem("character");
-  console.log(currentCharacter.src);
-  // Клик по доп персонажам
+
+  if (currentCharacterSrc) {
+    currentCharacter.src = `${currentCharacterSrc}`;
+  }
+
   btnExtraCharacter.forEach((btn, index) => {
     btn.addEventListener("click", () => {
-      let a = currentCharacter.src;
-
-      currentCharacter.src = `${extraCharacters[index].src}`;
-      extraCharacters[index].src = `${a}`;
-      currentCharacterSrc = currentCharacter.src;
-      localStorage.setItem("character", currentCharacter.src);
-
+      currentCharacterSrc = extraCharacters[index].src;
+      currentCharacter.src = `${currentCharacterSrc}`;
+      localStorage.setItem("character", currentCharacterSrc);
       document.querySelector(".overlay-big").style.display = "none";
       changeCharacter.style.display = "none";
-      changeCharacterinFight(); /* импортировать эту функцию */
+      changeCharacterinFight();
     });
   });
 
@@ -274,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let currentHealthPlayer = Number(localStorage.getItem("currentHealthPlayer"));
 
   //   Установим пртивника и индекс из массива для противника
-  let IndexOfCurrentOpponent = localStorage.getItem("IndexOfCurrentOpponent");
+  /*   let IndexOfCurrentOpponent = localStorage.getItem("IndexOfCurrentOpponent"); */
 
   let currentOpponnent = arrayOfOpponents[+IndexOfCurrentOpponent];
 
@@ -396,8 +453,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let battleLogs = JSON.parse(localStorage.getItem("battleLogs")) || [];
   const battleResultText = document.querySelector(".log-result");
-  console.log(localStorage.getItem("battleLogs"));
   writeLogs();
+
   //   Клик по кнопке новы баттл,должна закрывать само всплывающее окно,
   // отрисовывать нового противника,  возвращать визуальную шкалу здоровья на 100%, устанавливать
   // числовое и текстовое состоянии здоровья текущего на первоначальное значение, у противника менять общее здоровье
@@ -406,17 +463,12 @@ document.addEventListener("DOMContentLoaded", function () {
     battleLogs = [];
     localStorage.removeItem("battleLogs");
     battleResultText.innerHTML = "";
-    writeLogs();
+    /*     writeLogs(); */
     localStorage.removeItem("IndexOfCurrentOpponent");
     createOpponent();
     resetValueHealth();
     battleResult.style.display = "none";
-    pages.forEach((page) => {
-      page.style.display = "none";
-    });
-    profilePage.style.display = "flex";
-    topSection.style.display = "flex";
-    textTopSection.textContent = "Profile";
+    location.hash = "profile";
   });
 
   /* ==================================БОЙ================================================= */
