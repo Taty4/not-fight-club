@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
   /* ==============Переход по страницам=========================== */
-  // All pages
   const pages = document.querySelectorAll(".page");
   const homePage = document.querySelector(".home");
   const settingPage = document.querySelector(".setting");
@@ -16,8 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const btnSetting = document.querySelector(".icon-setting");
   const textTopSection = document.querySelector(".main-txt");
   const btnFight = document.querySelector(".btn-fight");
-
-  /* =====================Пробую писать роутинг========================== */
 
   // ==================== Функция показа страницы ===================
   function showPage(page, title, withHeader = true) {
@@ -47,12 +44,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // ==================== Функция роутера ===================
   function router() {
     updateSavedName();
-    let hash = location.hash.slice(1); // убираем #
-    console.log(hash + " - обрезанный хэш в функции router");
+    let hash = location.hash.slice(1);
 
-    // Если первый визит, показываем страницу создания персонажа
     if (!savedName) {
-      hash = "create"; // дефолтная страница
+      hash = "create";
     } else if (!hash) {
       hash = "home";
     }
@@ -60,16 +55,20 @@ document.addEventListener("DOMContentLoaded", function () {
     if (routes[hash]) {
       routes[hash]();
     } else {
-      routes.home(); // fallback
+      routes.home();
     }
   }
 
-  // ==================== Привязка кнопок ===================
+  // ==================== Клики по кнопкам =============================
   btnHome.addEventListener("click", () => (location.hash = "home"));
   btnSetting.addEventListener("click", () => (location.hash = "setting"));
   btnProfile.addEventListener("click", () => (location.hash = "profile"));
   btnFight.addEventListener("click", () => {
     location.hash = "fight";
+    IndexOfCurrentOpponent = localStorage.getItem("IndexOfCurrentOpponent");
+    if (!IndexOfCurrentOpponent) {
+      createOpponent();
+    }
   });
   btnCreateCharacter.addEventListener("click", () => {
     saveName();
@@ -79,13 +78,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let IndexOfCurrentOpponent = localStorage.getItem("IndexOfCurrentOpponent");
 
-  // ==================== Слушатели ===================
   window.addEventListener("hashchange", router);
   window.addEventListener("load", router);
 
   /*==================================Смена имени со страницы создания персонажа====================================  */
-
-  // При пеерезагрузке оставляю ранее введенное имя, если имя уже сохранено указываем его
   function getValueName() {
     if (savedName) {
       document.getElementById("name").value = savedName;
@@ -111,12 +107,12 @@ document.addEventListener("DOMContentLoaded", function () {
     allChangeName();
   }
   saveName();
-  /* =======================Смена имени на страние настроек ===================================== */
 
+  /* =======================Смена имени на страние настроек ===================================== */
   const btnEdit = document.querySelector(".btn-edit");
   const inputSetting = document.querySelector(".edit-name-input");
 
-  // Считаем количество кликов по кнопке edit
+  // Считаю количество кликов по кнопке edit
   let countClicks = 0;
 
   function countClick() {
@@ -128,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Кликаем по кнопке edit
+  // Кликаю по кнопке edit
   btnEdit.addEventListener("click", () => {
     inputSetting.classList.toggle("active");
     localStorage.setItem("name", inputSetting.value);
@@ -207,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
     id: 1,
     name: "Shy boy",
     health: 120,
-    damage: 40,
+    damage: 34,
     critChance: 0.2,
     critCoefficient: 1.5,
     attackZones: 1,
@@ -220,8 +216,8 @@ document.addEventListener("DOMContentLoaded", function () {
     id: 2,
     name: "Powerful magician",
     health: 160,
-    damage: 25,
-    critChance: 0.2,
+    damage: 20,
+    critChance: 0.1,
     critCoefficient: 1.5,
     attackZones: 1,
     deffendZones: 3,
@@ -233,11 +229,11 @@ document.addEventListener("DOMContentLoaded", function () {
     id: 3,
     name: "Cheerful man",
     health: 150,
-    damage: 30,
-    critChance: 0.1,
+    damage: 26,
+    critChance: 0.2,
     critCoefficient: 1.5,
-    attackZones: 2,
-    deffendZones: 1,
+    attackZones: 1,
+    deffendZones: 2,
     src: "./assets/opponents/man-oppwebP.webp",
     alt: "Opponent man",
   };
@@ -259,8 +255,8 @@ document.addEventListener("DOMContentLoaded", function () {
     id: 5,
     name: "Cutie",
     health: 130,
-    damage: 30,
-    critChance: 0.1,
+    damage: 28,
+    critChance: 0.2,
     critCoefficient: 1.5,
     attackZones: 2,
     deffendZones: 1,
@@ -275,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
     name: savedName,
     health: 150,
     damage: 30,
-    critChance: 0.1,
+    critChance: 0.2,
     critCoefficient: 1.5,
     attackZones: 1,
     deffendZones: 2,
@@ -309,9 +305,6 @@ document.addEventListener("DOMContentLoaded", function () {
   );
   let currentHealthPlayer = Number(localStorage.getItem("currentHealthPlayer"));
 
-  //   Установим пртивника и индекс из массива для противника
-  /*   let IndexOfCurrentOpponent = localStorage.getItem("IndexOfCurrentOpponent"); */
-
   let currentOpponnent = arrayOfOpponents[+IndexOfCurrentOpponent];
 
   //   Отрисую саму картинку, а его источники буду устанавливать в функции смены ротивника
@@ -327,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
     IndexOfCurrentOpponent = Math.floor(
       Math.random() * arrayOfOpponents.length
     );
-    console.log(imgOpponent);
+
     // Получим сам обьект с противником по его индексу
     currentOpponnent = arrayOfOpponents[IndexOfCurrentOpponent];
 
@@ -384,38 +377,59 @@ document.addEventListener("DOMContentLoaded", function () {
 на экран новые значения побед и поражений. Отсюда же возьму переменню для вывода сообщения о том кто победил */
   let resultOfBattle = "";
 
-  // Фуекция которая записывает результат батла
-
   const textResult = document.querySelector(".text-result");
 
+  // Фуекция которая записывает выводит на экран кто победил
   function writeResultBattle() {
     textResult.innerHTML = resultOfBattle;
   }
+
+  // Звуки
+  const audioWin = document.getElementById("audio-win");
+  const audioLose = document.getElementById("audio-lose");
 
   function checkBattleOver() {
     if (currentHealthPlayer <= 0 || currentHealthOpponent <= 0) {
       if (currentHealthPlayer <= 0 && currentHealthOpponent <= 0) {
         currentHealthPlayer = 0;
         currentHealthOpponent = 0;
+
         changeVisualDamage();
+
         resultOfBattle = "<p class='you-won'>Dead heat</p>";
+
         writeResultBattle();
       } else if (currentHealthPlayer <= 0) {
         currentHealthPlayer = 0;
-        changeVisualDamage();
         countLoses++;
         localStorage.setItem("countLoses", countLoses);
+
+        changeVisualDamage();
+
         updateStatistic();
+
         resultOfBattle = "<p class='you-lost'>You lost :(</p>";
         writeResultBattle();
+
+        audioLose.currentTime = 0;
+        audioLose.volume = 0.1;
+        audioLose.play();
       } else {
         currentHealthOpponent = 0;
+
         changeVisualDamage();
+
         countWins++;
         localStorage.setItem("countWins", countWins);
+
         updateStatistic();
+
         resultOfBattle = "<p class='you-won'>You won!</p>";
         writeResultBattle();
+
+        audioWin.currentTime = 0;
+        audioWin.volume = 0.2;
+        audioWin.play();
       }
 
       battleResult.style.display = "flex";
@@ -459,7 +473,6 @@ document.addEventListener("DOMContentLoaded", function () {
     battleResultText.innerHTML = "";
     /*     writeLogs(); */
     localStorage.removeItem("IndexOfCurrentOpponent");
-    createOpponent();
     resetValueHealth();
     battleResult.style.display = "none";
     location.hash = "profile";
@@ -533,8 +546,15 @@ document.addEventListener("DOMContentLoaded", function () {
       battleResultText.scrollTop = battleResultText.scrollHeight;
     });
   }
+
   /* ==================================================================================================== */
   btnThrow.addEventListener("click", () => {
+    const audio = document.getElementById("audio");
+
+    audio.currentTime = 0;
+    audio.volume = 0.1;
+    audio.play();
+
     playerAttack = Array.from(
       document.querySelectorAll("input[name='attack']:checked")
     ).map((a) => a.value);
@@ -543,15 +563,6 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll("input[name='defence']:checked")
     ).map((a) => a.value);
 
-    // Сброс выбранныч ранее чекбщксов
-    /*   document
-      .querySelectorAll("input[name='attack']")
-      .forEach((a) => (a.checked = false));
-
-    document
-      .querySelectorAll("input[name='defence']")
-      .forEach((a) => (a.checked = false));
- */
     // Тут пишем функию которая перемешивает массив всех зон (раотает при каждом клике на кнопку throw)
     function getRandomZones(zones, count) {
       const allZonesCopy = zones.concat([]);
@@ -644,7 +655,7 @@ document.addEventListener("DOMContentLoaded", function () {
     currentHealthPlayerText.textContent = currentHealthPlayer;
   }
 
-  /* ================================Запись лога====================================== */
+  /* ================================Логи====================================== */
 
   // Функция генерации текста хода
   function battleEvent(event) {

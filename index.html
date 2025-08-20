@@ -96,7 +96,7 @@
             <div class="overlay-small"></div>
             <img
               class="extra-character"
-              src="/assets/players/new-princwebP.webp"
+              src="./assets/players/new-princwebP.webp"
               alt="Character princ"
             />
           </div>
@@ -200,6 +200,7 @@
             </div>
           </div>
           <button class="btn-throw">Fight</button>
+          <audio id="audio" src="./assets/audio.mp3" preload="auto"></audio>
         </div>
         <!-- Right part -->
         <div class="right-par">
@@ -217,6 +218,16 @@
         <div class="battle-result">
           <button class="btn-new-battle">Close</button>
           <div class="text-result"></div>
+          <audio
+            id="audio-win"
+            src="./assets/audio-win.mp3"
+            preload="auto"
+          ></audio>
+          <audio
+            id="audio-lose"
+            src="./assets/audio-lose.mp3"
+            preload="auto"
+          ></audio>
         </div>
       </div>
       <div class="log-result"></div>
