@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Not-fight-club</title>
+    <title>Not fight club</title>
+    <link rel="icon" type="image/png" href="./assets/32-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="./assets/16-16.png" sizes="16x16" />
     <link rel="stylesheet" href="./style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,7 +38,6 @@
         />
       </div>
     </div>
-    <!-- Create Character -->
     <div id="login" class="create-character page">
       <h1 class="name-game">Not fight club</h1>
       <h2 class="create-character-title">Create Your Character</h2>
@@ -45,12 +46,10 @@
       <button class="btn-create-character">Create Character</button>
     </div>
 
-    <!-- Home -->
     <div id="home" class="home page">
       <button class="btn-fight">Fight!</button>
     </div>
 
-    <!-- Setting -->
     <div id="setting" class="setting page">
       <p class="text-setting">
         Player Name: <span class="current-name"></span>
@@ -64,7 +63,6 @@
       <button class="btn-edit">Edit</button>
     </div>
 
-    <!-- Profile -->
     <div id="profile" class="profile page">
       <div class="current-character">
         <div class="overlay"></div>
@@ -131,10 +129,9 @@
       </div>
     </div>
     <div class="overlay-big"></div>
-    <!-- Fight -->
+
     <div id="fight" class="fight page">
       <div class="content-fight">
-        <!-- Left part -->
         <div class="left-part">
           <p class="name-fight"></p>
           <div id="my-character-container"></div>
@@ -145,7 +142,7 @@
             <span class="my-current-health">150</span>/150
           </p>
         </div>
-        <!-- Center part -->
+
         <div class="center-part">
           <p class="choose-zones-txt">
             Please pick 1 Attack zone and 2 Defense zones
@@ -202,7 +199,7 @@
           <button class="btn-throw">Fight</button>
           <audio id="audio" src="./assets/audio.mp3" preload="auto"></audio>
         </div>
-        <!-- Right part -->
+
         <div class="right-par">
           <p class="name-opponent"></p>
           <div id="opponent-container"></div>
@@ -232,8 +229,6 @@
       </div>
       <div class="log-result"></div>
     </div>
-
-    <!-- Tnd end:) -->
     <script defer src="./main.js"></script>
   </body>
 </html>

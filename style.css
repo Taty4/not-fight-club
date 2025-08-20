@@ -43,8 +43,6 @@ img {
   cursor: pointer;
 }
 
-/* Create Character */
-
 .create-character {
   display: flex;
   flex-direction: column;
@@ -102,17 +100,11 @@ img {
   background-color: #fbbc3aba;
 }
 
-/* Home */
-
 .home {
   display: flex;
   flex-direction: column;
   display: none;
 }
-
-/* .home {
- display: none;
-} */
 
 .btn-fight {
   margin-top: 40vh;
@@ -133,8 +125,6 @@ img {
 .btn-edit:hover {
   background-color: #fbbc3aba;
 }
-
-/* Setting */
 
 .setting {
   display: none;
@@ -174,8 +164,6 @@ img {
 .active {
   display: flex;
 }
-
-/* Profile */
 
 .profile {
   display: none;
@@ -274,7 +262,6 @@ img {
   font-style: italic;
 }
 
-/* Change character */
 .change-character {
   position: relative;
   display: none;
@@ -344,8 +331,6 @@ img {
   height: 100%;
   background-color: rgba(175, 175, 175, 0.8);
 }
-
-/* Fight */
 
 .fight {
   display: none;
@@ -435,8 +420,6 @@ img {
   text-align: center;
 }
 
-/* Choose zones */
-
 .center-part {
   padding-top: 55px;
   display: flex;
@@ -517,7 +500,6 @@ img {
   opacity: 0.5;
 }
 
-/* Battle result */
 .battle-result {
   flex-direction: column;
   align-items: center;
