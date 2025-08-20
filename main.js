@@ -18,13 +18,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const btnFight = document.querySelector(".btn-fight");
 
   /* =====================Пробую писать роутинг========================== */
-  let savedName = localStorage.getItem("name");
+
   // ==================== Функция показа страницы ===================
-  function showPage(page, title) {
+  function showPage(page, title, withHeader = true) {
     pages.forEach((p) => (p.style.display = "none")); // скрываем все
     page.style.display = "flex"; // показываем нужную
-    topSection.style.display = "flex";
-    textTopSection.textContent = title || "";
+
+    if (withHeader) {
+      topSection.style.display = "flex";
+      textTopSection.textContent = title || "";
+    } else topSection.style.display = "none";
   }
 
   // ==================== Объект роутинга ===================
@@ -36,17 +39,22 @@ document.addEventListener("DOMContentLoaded", function () {
     create: () => showPage(createPage, "Create character"), // для первого визита
   };
 
+  let savedName = localStorage.getItem("name");
+  function updateSavedName() {
+    savedName = localStorage.getItem("name");
+  }
+
   // ==================== Функция роутера ===================
   function router() {
+    updateSavedName();
     let hash = location.hash.slice(1); // убираем #
+    console.log(hash + " - обрезанный хэш в функции router");
 
     // Если первый визит, показываем страницу создания персонажа
-
-    if (!hash) {
-      hash = "home";
-    }
     if (!savedName) {
       hash = "create"; // дефолтная страница
+    } else if (!hash) {
+      hash = "home";
     }
 
     if (routes[hash]) {
@@ -56,8 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  let IndexOfCurrentOpponent = localStorage.getItem("IndexOfCurrentOpponent");
-  console.log(!!IndexOfCurrentOpponent + " индекс ри загрузке");
   // ==================== Привязка кнопок ===================
   btnHome.addEventListener("click", () => (location.hash = "home"));
   btnSetting.addEventListener("click", () => (location.hash = "setting"));
@@ -66,9 +72,12 @@ document.addEventListener("DOMContentLoaded", function () {
     location.hash = "fight";
   });
   btnCreateCharacter.addEventListener("click", () => {
-    saveName(); // твоя функция сохранения имени
-    location.hash = "home"; // переходим на home после создания
+    saveName();
+    location.hash = "home";
+    router();
   });
+
+  let IndexOfCurrentOpponent = localStorage.getItem("IndexOfCurrentOpponent");
 
   // ==================== Слушатели ===================
   window.addEventListener("hashchange", router);
