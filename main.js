@@ -83,61 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("hashchange", router);
   window.addEventListener("load", router);
 
-  /* ================================================================================== */
-
-  //Переход настраницу настроек
-  /*   btnSetting.addEventListener("click", () => {
-    pages.forEach((page) => {
-      page.style.display = "none";
-    });
-    settingPage.style.display = "flex";
-    topSection.style.display = "flex";
-    textTopSection.textContent = "Setting";
-  }); */
-
-  // Переход на страницу дом
-  /*   btnHome.addEventListener("click", () => {
-    pages.forEach((page) => {
-      page.style.display = "none";
-    });
-    homePage.style.display = "flex";
-    topSection.style.display = "flex";
-    textTopSection.textContent = "Main";
-  }); */
-
-  // Переход на страницу профиля
-  /*   btnProfile.addEventListener("click", () => {
-    pages.forEach((page) => {
-      page.style.display = "none";
-    });
-    profilePage.style.display = "flex";
-    topSection.style.display = "flex";
-    textTopSection.textContent = "Profile";
-  }); */
-
-  // Переход на страницу боя
-  /*   btnFight.addEventListener("click", () => {
-    pages.forEach((page) => {
-      page.style.display = "none";
-    });
-    fightPage.style.display = "flex";
-    topSection.style.display = "flex";
-    textTopSection.textContent = "Fight";
-  }); */
-
-  // Переход на страницу дом со страницы создания персонажа
-  /*  btnCreateCharacter.addEventListener("click", saveName);
-  btnCreateCharacter.addEventListener("click", () => {
-    pages.forEach((page) => {
-      page.style.display = "none";
-    });
-    homePage.style.display = "flex";
-    topSection.style.display = "flex";
-  }); */
-
   /*==================================Смена имени со страницы создания персонажа====================================  */
-
-  // Перемнная с именем
 
   // При пеерезагрузке оставляю ранее введенное имя, если имя уже сохранено указываем его
   function getValueName() {
@@ -398,12 +344,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (IndexOfCurrentOpponent) {
     saveOpponent();
-    changeVisualDamage(innerHealthPlayer, currentHealthPlayer, player.health);
-    changeVisualDamage(
-      innerHealthOpponent,
-      currentHealthOpponent,
-      currentOpponnent.health
-    );
+    changeVisualDamage();
     allHealthOpponentText.textContent = currentOpponnent.health;
   } else {
     createOpponent();
@@ -443,25 +384,45 @@ document.addEventListener("DOMContentLoaded", function () {
 на экран новые значения побед и поражений. Отсюда же возьму переменню для вывода сообщения о том кто победил */
   let resultOfBattle = "";
 
+  // Фуекция которая записывает результат батла
+
+  const textResult = document.querySelector(".text-result");
+
+  function writeResultBattle() {
+    textResult.innerHTML = resultOfBattle;
+  }
+
   function checkBattleOver() {
     if (currentHealthPlayer <= 0 || currentHealthOpponent <= 0) {
       if (currentHealthPlayer <= 0 && currentHealthOpponent <= 0) {
-        resultOfBattle = "Dead heat";
+        currentHealthPlayer = 0;
+        currentHealthOpponent = 0;
+        changeVisualDamage();
+        resultOfBattle = "<p class='you-won'>Dead heat</p>";
+        writeResultBattle();
       } else if (currentHealthPlayer <= 0) {
+        currentHealthPlayer = 0;
+        changeVisualDamage();
         countLoses++;
         localStorage.setItem("countLoses", countLoses);
         updateStatistic();
-        resultOfBattle = "You lost";
+        resultOfBattle = "<p class='you-lost'>You lost :(</p>";
+        writeResultBattle();
       } else {
+        currentHealthOpponent = 0;
+        changeVisualDamage();
         countWins++;
         localStorage.setItem("countWins", countWins);
         updateStatistic();
-        resultOfBattle = "You won";
+        resultOfBattle = "<p class='you-won'>You won!</p>";
+        writeResultBattle();
       }
 
       battleResult.style.display = "flex";
     }
   }
+
+  checkBattleOver();
 
   /*  Эта функция полностью сбрасывает все что касается шкалы здоровья */
   function resetValueHealth() {
@@ -488,7 +449,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const battleResultText = document.querySelector(".log-result");
   writeLogs();
 
-  //   Клик по кнопке новы баттл,должна закрывать само всплывающее окно,
+  //   Клик по кнопке новыq баттл,должна закрывать само всплывающее окно,
   // отрисовывать нового противника,  возвращать визуальную шкалу здоровья на 100%, устанавливать
   // числовое и текстовое состоянии здоровья текущего на первоначальное значение, у противника менять общее здоровье
   //   То есть чтобы визуально шкала обновилась полностью и внешене и по значенияь
@@ -583,14 +544,14 @@ document.addEventListener("DOMContentLoaded", function () {
     ).map((a) => a.value);
 
     // Сброс выбранныч ранее чекбщксов
-    document
+    /*   document
       .querySelectorAll("input[name='attack']")
       .forEach((a) => (a.checked = false));
 
     document
       .querySelectorAll("input[name='defence']")
       .forEach((a) => (a.checked = false));
-
+ */
     // Тут пишем функию которая перемешивает массив всех зон (раотает при каждом клике на кнопку throw)
     function getRandomZones(zones, count) {
       const allZonesCopy = zones.concat([]);
@@ -639,12 +600,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Вывожу на экран запись лога
     validateCheckbox();
     // Тут вызываем функцию которая уменьшает шкалу здоровья
-    changeVisualDamage(innerHealthPlayer, currentHealthPlayer, player.health);
-    changeVisualDamage(
-      innerHealthOpponent,
-      currentHealthOpponent,
-      currentOpponnent.health
-    );
+    changeVisualDamage();
 
     // Вывожу на экран запись лога
 
@@ -663,23 +619,32 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.setItem("battleLogs", JSON.stringify(battleLogs));
       battleResultText.scrollTop = battleResultText.scrollHeight;
     });
+    let otb = "---------------------------------------------------------------";
+    const p = document.createElement("p");
+    p.innerHTML = otb;
+    battleResultText.appendChild(p);
+    battleLogs.push(otb);
+
+    localStorage.setItem("battleLogs", JSON.stringify(battleLogs));
+    battleResultText.scrollTop = battleResultText.scrollHeight;
     checkBattleOver();
   });
 
   //   Эта функция меняет при клике на кноаку бросать визуальное состояние здоровья (и шкалу и текста)
-  function changeVisualDamage(character, currentHealth, allHealth) {
-    character.style.width = `${(currentHealth / allHealth) * 100}%`;
+  function changeVisualDamage() {
+    innerHealthPlayer.style.width = `${
+      (currentHealthPlayer / player.health) * 100
+    }%`;
+
+    innerHealthOpponent.style.width = `${
+      (currentHealthOpponent / currentOpponnent.health) * 100
+    }%`;
+
     currentHealthOpponentText.textContent = currentHealthOpponent;
     currentHealthPlayerText.textContent = currentHealthPlayer;
   }
 
   /* ================================Запись лога====================================== */
-
-  /*  function addLog(message) {
-    const battleResultText = docoment.querySelector("..log-result");
-    battleResultText.textContent += message + "\n";
-    battleResultText.scrollTop = battleResultText.scrollHeight;
-  } */
 
   // Функция генерации текста хода
   function battleEvent(event) {
