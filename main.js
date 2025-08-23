@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setting: () => showPage(settingPage, 'Setting'),
     profile: () => showPage(profilePage, 'Profile'),
     fight: () => showPage(fightPage, 'Fight'),
-    create: () => showPage(createPage, 'Create character'),
+    create: () => showPage(createPage, 'Create character', false),
   };
 
   let savedName = localStorage.getItem('name');
@@ -65,9 +65,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
   btnCreateCharacter.addEventListener('click', () => {
-    saveName();
-    location.hash = 'home';
-    router();
+    if (!document.getElementById('name').value) {
+      alert("Please, enter the player's name");
+    } else {
+      saveName();
+      location.hash = 'home';
+      router();
+    }
   });
 
   window.addEventListener('hashchange', router);
@@ -84,11 +88,22 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   getValueName();
 
+  const player = {
+    name: savedName,
+    health: 150,
+    damage: 30,
+    critChance: 0.2,
+    critCoefficient: 1.5,
+    attackZones: 1,
+    deffendZones: 2,
+  };
+
   function allChangeName() {
     document.querySelector('.current-name').textContent = savedName;
     document.querySelector('.current-name-profile').textContent = savedName;
     document.querySelector('.name-fight').textContent = savedName;
     document.querySelector('.edit-name-input').value = savedName;
+    player.name = savedName;
   }
 
   function saveName() {
@@ -181,11 +196,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   let winsValue = document.querySelector('.wins-value');
   let losesValue = document.querySelector('.loses-value');
+  let deadValue = document.querySelector('.dead-value');
 
   /* ========================================== Battle======================================== */
   const boy = {
     id: 1,
-    name: 'Shy boy',
+    name: 'Kael',
     health: 120,
     damage: 34,
     critChance: 0.2,
@@ -198,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const mag = {
     id: 2,
-    name: 'Powerful magician',
+    name: 'Orwin',
     health: 160,
     damage: 20,
     critChance: 0.1,
@@ -211,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const man = {
     id: 3,
-    name: 'Cheerful man',
+    name: 'Darius',
     health: 150,
     damage: 26,
     critChance: 0.2,
@@ -224,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const girl = {
     id: 4,
-    name: 'Cheeky girl',
+    name: 'Lyra',
     health: 140,
     damage: 30,
     critChance: 0.1,
@@ -237,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const girl2 = {
     id: 5,
-    name: 'Cutie',
+    name: 'Elara',
     health: 130,
     damage: 28,
     critChance: 0.2,
@@ -250,16 +266,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const arrayOfOpponents = [boy, mag, man, girl, girl2];
   const allZones = ['head', 'neck', 'body', 'belly', 'legs'];
-
-  const player = {
-    name: savedName,
-    health: 150,
-    damage: 30,
-    critChance: 0.2,
-    critCoefficient: 1.5,
-    attackZones: 1,
-    deffendZones: 2,
-  };
 
   let damageToOpponent = 0;
   let damageToPlayer = 0;
@@ -329,6 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   let countWins = localStorage.getItem('countWins');
   let countLoses = localStorage.getItem('countLoses');
+  let countDead = localStorage.getItem('countDead');
 
   if (!countWins) {
     countWins = 0;
@@ -336,12 +343,34 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!countLoses) {
     countLoses = 0;
   }
+  if (!countDead) {
+    countDead = 0;
+  }
 
   function updateStatistic() {
     winsValue.textContent = countWins;
     losesValue.textContent = countLoses;
+    deadValue.textContent = countDead;
   }
   updateStatistic();
+
+  const btnResetStatistic = document.querySelector('.btn-reset');
+
+  btnResetStatistic.addEventListener('click', () => {
+    document.querySelector('.clue').textContent = 'You reset statistic';
+    countLoses = 0;
+    localStorage.setItem('countLoses', countLoses);
+    countWins = 0;
+    localStorage.setItem('countWins', countWins);
+    countDead = 0;
+    localStorage.setItem('countDead', countDead);
+    updateStatistic();
+  });
+
+  btnResetStatistic.addEventListener('mouseover', () => {
+    document.querySelector('.clue').textContent =
+      ' Important! If you click this button your statistics will be reset';
+  });
 
   let resultOfBattle = '';
 
@@ -359,18 +388,22 @@ document.addEventListener('DOMContentLoaded', function () {
       if (currentHealthPlayer <= 0 && currentHealthOpponent <= 0) {
         currentHealthPlayer = 0;
         currentHealthOpponent = 0;
-
         changeVisualDamage();
+
+        countDead++;
+        localStorage.setItem('countDead', countDead);
+        updateStatistic();
 
         resultOfBattle = '<p class="you-won">Dead heat</p>';
 
         writeResultBattle();
       } else if (currentHealthPlayer <= 0) {
         currentHealthPlayer = 0;
-        countLoses++;
-        localStorage.setItem('countLoses', countLoses);
 
         changeVisualDamage();
+
+        countLoses++;
+        localStorage.setItem('countLoses', countLoses);
 
         updateStatistic();
 
@@ -478,6 +511,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const dealDamage = !isBlocked || isCrit ? damage : 0;
       totalDamage += dealDamage;
+      console.log(attacker.name);
       events.push({
         attacker: attacker.name,
         defender: defender.name,
@@ -601,6 +635,7 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ====================================================================== */
 
   function battleEvent(event) {
+    updateSavedName();
     const { attacker, defender, target, blocked, crit, damage } = event;
 
     let attackerSpan = `<span class='attacker'>${attacker}</span>`;

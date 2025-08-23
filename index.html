@@ -21,21 +21,9 @@
     <div class="top-section page" id="top-section">
       <p class="main-txt">Main</p>
       <div class="icons">
-        <img
-          class="icon-home icon"
-          src="./assets/icons8-главная-100.png"
-          alt="home icon"
-        />
-        <img
-          class="icon-profile icon"
-          src="./assets/icons8-profile-50.png"
-          alt="profile icon"
-        />
-        <img
-          class="icon-setting icon"
-          src="./assets/icons8-настройки-100.png"
-          alt="setting icon"
-        />
+        <span class="icon-home icon">Home</span>
+        <span class="icon-profile icon">Profile</span>
+        <span class="icon-setting icon">Setting </span>
       </div>
     </div>
     <div id="login" class="create-character page">
@@ -51,16 +39,25 @@
     </div>
 
     <div id="setting" class="setting page">
-      <p class="text-setting">
-        Player Name: <span class="current-name"></span>
-      </p>
-      <input
-        class="edit-name-input"
-        type="text"
-        name="edit-name"
-        id="edit-name"
-      />
-      <button class="btn-edit">Edit</button>
+      <div class="container-content-setting">
+        <p class="text-setting">
+          Player Name: <span class="current-name"></span>
+        </p>
+        <input
+          class="edit-name-input"
+          type="text"
+          name="edit-name"
+          id="edit-name"
+        />
+        <button class="btn-edit">Edit</button>
+      </div>
+      <div class="container-statistic-reset">
+        <button class="btn-reset">Reset statistic</button>
+        <p class="statistic-was-reset"></p>
+        <p class="clue">
+          Important! If you click this button your statistics will be reset
+        </p>
+      </div>
     </div>
 
     <div id="profile" class="profile page">
@@ -79,6 +76,8 @@
         </p>
         <p class="count-wins">Wins: <span class="wins-value">0</span></p>
         <p class="count-loses">Losses: <span class="loses-value">0</span></p>
+        <p class="dead-heat">Dead heat: <span class="dead-value">0</span></p>
+
         <div class="change-character">
           <div class="small-character">
             <span class="choose-character"></span>
