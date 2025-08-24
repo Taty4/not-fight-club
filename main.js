@@ -232,8 +232,8 @@ document.addEventListener('DOMContentLoaded', function () {
     damage: 26,
     critChance: 0.2,
     critCoefficient: 1.5,
-    attackZones: 1,
-    deffendZones: 2,
+    attackZones: 2,
+    deffendZones: 1,
     src: './assets/opponents/man-oppwebP.webp',
     alt: 'Opponent man',
   };
@@ -372,6 +372,30 @@ document.addEventListener('DOMContentLoaded', function () {
       ' Important! If you click this button your statistics will be reset';
   });
 
+  btnSound = document.querySelector('.btn-sound');
+
+  let countClickBtnSound = localStorage.getItem('countClickBtnSound');
+
+  if (!countClickBtnSound) {
+    countClickBtnSound = 0;
+    localStorage.setItem('countClickBtnSound', countClickBtnSound);
+  }
+  if (countClickBtnSound % 2 !== 0) {
+    btnSound.textContent = 'On';
+  } else {
+    btnSound.textContent = 'Off';
+  }
+
+  btnSound.addEventListener('click', () => {
+    countClickBtnSound++;
+    localStorage.setItem('countClickBtnSound', countClickBtnSound);
+    if (countClickBtnSound % 2 !== 0) {
+      btnSound.textContent = 'On';
+    } else {
+      btnSound.textContent = 'Off';
+    }
+  });
+
   let resultOfBattle = '';
 
   const textResult = document.querySelector('.text-result');
@@ -410,9 +434,11 @@ document.addEventListener('DOMContentLoaded', function () {
         resultOfBattle = '<p class="you-lost">You lost :(</p>';
         writeResultBattle();
 
-        audioLose.currentTime = 0;
-        audioLose.volume = 0.2;
-        audioLose.play();
+        if (countClickBtnSound % 2 !== 0) {
+          audioLose.currentTime = 0;
+          audioLose.volume = 0.2;
+          audioLose.play();
+        }
       } else {
         currentHealthOpponent = 0;
 
@@ -426,9 +452,11 @@ document.addEventListener('DOMContentLoaded', function () {
         resultOfBattle = '<p class="you-won">You won!</p>';
         writeResultBattle();
 
-        audioWin.currentTime = 0;
-        audioWin.volume = 0.3;
-        audioWin.play();
+        if (countClickBtnSound % 2 !== 0) {
+          audioWin.currentTime = 0;
+          audioWin.volume = 0.3;
+          audioWin.play();
+        }
       }
 
       battleResult.style.display = 'flex';
@@ -537,10 +565,11 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ======================================================================== */
   btnThrow.addEventListener('click', () => {
     const audio = document.getElementById('audio');
-
-    audio.currentTime = 0;
-    audio.volume = 0.2;
-    audio.play();
+    if (countClickBtnSound % 2 !== 0) {
+      audio.currentTime = 0;
+      audio.volume = 0.2;
+      audio.play();
+    }
 
     playerAttack = Array.from(
       document.querySelectorAll('input[name="attack"]:checked')
