@@ -381,15 +381,15 @@ document.addEventListener('DOMContentLoaded', function () {
     localStorage.setItem('countClickBtnSound', countClickBtnSound);
   }
   if (countClickBtnSound % 2 !== 0) {
-    btnSound.textContent = 'On';
-  } else {
     btnSound.textContent = 'Off';
+  } else {
+    btnSound.textContent = 'On';
   }
 
   btnSound.addEventListener('click', () => {
     countClickBtnSound++;
     localStorage.setItem('countClickBtnSound', countClickBtnSound);
-    if (countClickBtnSound % 2 !== 0) {
+    if (countClickBtnSound % 2 === 0) {
       btnSound.textContent = 'On';
     } else {
       btnSound.textContent = 'Off';
@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function () {
         resultOfBattle = '<p class="you-lost">You lost :(</p>';
         writeResultBattle();
 
-        if (countClickBtnSound % 2 !== 0) {
+        if (countClickBtnSound % 2 === 0) {
           audioLose.currentTime = 0;
           audioLose.volume = 0.2;
           audioLose.play();
@@ -452,7 +452,7 @@ document.addEventListener('DOMContentLoaded', function () {
         resultOfBattle = '<p class="you-won">You won!</p>';
         writeResultBattle();
 
-        if (countClickBtnSound % 2 !== 0) {
+        if (countClickBtnSound % 2 === 0) {
           audioWin.currentTime = 0;
           audioWin.volume = 0.3;
           audioWin.play();
@@ -565,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ======================================================================== */
   btnThrow.addEventListener('click', () => {
     const audio = document.getElementById('audio');
-    if (countClickBtnSound % 2 !== 0) {
+    if (countClickBtnSound % 2 === 0) {
       audio.currentTime = 0;
       audio.volume = 0.2;
       audio.play();
