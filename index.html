@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Not fight club</title>
+    <link rel="icon" type="image/png" href="./assets/32-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="./assets/16-16.png" sizes="16x16" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,400;0,700;1,400&family=Fredoka:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="top-section page" id="top-section">
+      <p class="main-txt">Main</p>
+      <div class="icons">
+        <span class="icon-home icon">Home</span>
+        <span class="icon-profile icon">Profile</span>
+        <span class="icon-setting icon">Setting </span>
+      </div>
+    </div>
+    <div id="login" class="create-character page">
+      <h1 class="name-game">Not fight club</h1>
+      <h2 class="create-character-title">Create Your Character</h2>
+      <h3 class="create-character-subtitle">Enter character name</h3>
+      <input type="text" id="name" name="name" autocomplete="name" />
+      <button class="btn-create-character">Create Character</button>
+    </div>
+
+    <div id="home" class="home page">
+      <button class="btn-fight">Fight!</button>
+    </div>
+
+    <div id="setting" class="setting page">
+      <div class="container-content-setting">
+        <p class="text-setting">
+          Player Name: <span class="current-name"></span>
+        </p>
+        <input
+          class="edit-name-input"
+          type="text"
+          name="edit-name"
+          id="edit-name"
+        />
+        <button class="btn-edit">Edit</button>
+      </div>
+      <div>
+        <span class="sound-txt">Sound: </span>
+        <button class="btn-sound"></button>
+      </div>
+      <div class="container-statistic-reset">
+        <button class="btn-reset">Reset statistic</button>
+        <p class="statistic-was-reset"></p>
+        <p class="clue">
+          Important! If you click this button your statistics will be reset
+        </p>
+      </div>
+    </div>
+
+    <div id="profile" class="profile page">
+      <div class="current-character">
+        <div class="overlay"></div>
+        <img
+          class="main-character"
+          src="./assets/players/solderwebP.webp"
+          alt="character-solder"
+        />
+        <span class="button-change-character"></span>
+      </div>
+      <div class="text-content-profile">
+        <p class="text-profile">
+          Your name: <span class="current-name-profile"></span>
+        </p>
+        <p class="count-wins">Wins: <span class="wins-value">0</span></p>
+        <p class="count-loses">Losses: <span class="loses-value">0</span></p>
+        <p class="dead-heat">Dead heat: <span class="dead-value">0</span></p>
+
+        <div class="change-character">
+          <div class="small-character">
+            <span class="choose-character"></span>
+            <div class="overlay-small"></div>
+            <img
+              class="extra-character"
+              src="./assets/players/solderwebP.webp"
+              alt="Character solder"
+            />
+          </div>
+          <div class="small-character">
+            <span class="choose-character"></span>
+            <div class="overlay-small"></div>
+            <img
+              class="extra-character"
+              src="./assets/players/new-princwebP.webp"
+              alt="Character princ"
+            />
+          </div>
+          <div class="small-character">
+            <span class="choose-character"></span>
+            <div class="overlay-small"></div>
+            <img
+              class="extra-character"
+              src="./assets/players/viking-playerswebP.webp"
+              alt="Character viking"
+            />
+          </div>
+          <div class="small-character">
+            <span class="choose-character"></span>
+            <div class="overlay-small"></div>
+            <img
+              class="extra-character"
+              src="./assets/players/woman-playerswebP.webp"
+              alt="Character woman"
+            />
+          </div>
+          <div class="small-character">
+            <span class="choose-character"></span>
+            <div class="overlay-small"></div>
+            <img
+              class="extra-character"
+              src="./assets/players/mag-players.webp"
+              alt="Character magic"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay-big"></div>
+
+    <div id="fight" class="fight page">
+      <div class="content-fight">
+        <div class="left-part">
+          <p class="name-fight"></p>
+          <div id="my-character-container"></div>
+          <div class="health">
+            <div class="inner-health inner-health-player"></div>
+          </div>
+          <p class="current-health">
+            <span class="my-current-health">150</span>/150
+          </p>
+        </div>
+
+        <div class="center-part">
+          <p class="choose-zones-txt">
+            Please pick 1 Attack zone and 2 Defense zones
+          </p>
+          <div class="choose-zones">
+            <div class="zones">
+              <div class="attack-zones">
+                <p class="attack-zones-text">Attack Zones</p>
+                <label>
+                  Head
+                  <input type="checkbox" name="attack" value="head" />
+                </label>
+                <label>
+                  Neck
+                  <input type="checkbox" name="attack" value="neck" />
+                </label>
+                <label>
+                  Body
+                  <input type="checkbox" name="attack" value="body" />
+                </label>
+                <label>
+                  Belly
+                  <input type="checkbox" name="attack" value="belly" />
+                </label>
+                <label>
+                  Legs <input type="checkbox" name="attack" value="legs" />
+                </label>
+              </div>
+              <div class="defence-zones">
+                <p class="defence-zones-text">Defence Zones</p>
+                <label
+                  ><input type="checkbox" name="defence" value="head" />
+                  Head</label
+                >
+                <label
+                  ><input type="checkbox" name="defence" value="neck" />
+                  Neck</label
+                >
+                <label
+                  ><input type="checkbox" name="defence" value="body" />
+                  Body</label
+                >
+                <label
+                  ><input type="checkbox" name="defence" value="belly" />
+                  Belly</label
+                >
+                <label
+                  ><input type="checkbox" name="defence" value="legs" />
+                  Legs</label
+                >
+              </div>
+            </div>
+          </div>
+          <button class="btn-throw">Fight</button>
+          <audio id="audio" src="./assets/audio.mp3" preload="auto"></audio>
+        </div>
+
+        <div class="right-par">
+          <p class="name-opponent"></p>
+          <div id="opponent-container"></div>
+          <div class="health">
+            <div class="inner-health inner-health-opponent"></div>
+          </div>
+          <p class="current-health">
+            <span class="opponent-current-health"></span>/<span
+              class="all-health-opponent"
+            ></span>
+          </p>
+        </div>
+        <div class="battle-result">
+          <button class="btn-new-battle">Close</button>
+          <div class="text-result"></div>
+          <audio
+            id="audio-win"
+            src="./assets/audio-win.mp3"
+            preload="auto"
+          ></audio>
+          <audio
+            id="audio-lose"
+            src="./assets/audio-lose.mp3"
+            preload="auto"
+          ></audio>
+        </div>
+      </div>
+      <div class="log-result"></div>
+    </div>
+    <script defer src="./main.js"></script>
+  </body>
+</html>
