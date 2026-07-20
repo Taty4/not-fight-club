@@ -1,7 +1,16 @@
+import { router } from "../../main.js";
+
 class Header {
   element;
   constructor() {
     this.element = document.createElement("div");
+    this.create();
+    this.listener();
+  }
+
+  listener() {
+    console.log(this.btnHome);
+    this.btnHome.addEventListener("click", () => router.navigate("/home"));
   }
 
   create() {

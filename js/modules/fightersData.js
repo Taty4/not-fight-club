@@ -1,9 +1,12 @@
 export const FIGHTERS_DATABASE = {
   boss: {
     name: "Boss",
+    key: "boss",
     avatarSrc: "./assets/avatars/boss.webp",
     health: 120,
     currentHealth: 120,
+    attack: 2,
+    defense: 1,
     widthSprite: 420,
     heightSprite: 360,
     sprites: {
@@ -32,9 +35,12 @@ export const FIGHTERS_DATABASE = {
   },
   giant: {
     name: "Гигант",
+    key: "giant",
     avatarSrc: "./assets/avatars/giant.webp",
     health: 120,
     currentHealth: 120,
+    attack: 2,
+    defense: 1,
     widthSprite: 420,
     heightSprite: 360,
     sprites: {
@@ -63,9 +69,12 @@ export const FIGHTERS_DATABASE = {
   },
   leader: {
     name: "Лидер",
+    key: "leader",
     avatarSrc: "./assets/avatars/leader.webp",
     health: 120,
     currentHealth: 120,
+    attack: 2,
+    defense: 1,
     widthSprite: 420,
     heightSprite: 360,
     sprites: {
@@ -94,8 +103,11 @@ export const FIGHTERS_DATABASE = {
   },
   aztec: {
     name: "Ацтек",
+    key: "aztec",
     health: 120,
     currentHealth: 120,
+    attack: 2,
+    defense: 1,
     avatarSrc: "./assets/avatars/aztec.webp",
     widthSprite: 420,
     heightSprite: 360,
@@ -126,9 +138,12 @@ export const FIGHTERS_DATABASE = {
 
   maya: {
     name: "Mайя",
+    key: "maya",
     avatarSrc: "./assets/avatars/maya.webp",
     health: 120,
     currentHealth: 120,
+    attack: 2,
+    defense: 1,
     widthSprite: 420,
     heightSprite: 360,
     sprites: {
@@ -157,9 +172,12 @@ export const FIGHTERS_DATABASE = {
   },
   nordic: {
     name: "Северный",
+    key: "nordic",
     avatarSrc: "./assets/avatars/nordic.webp",
     health: 120,
     currentHealth: 120,
+    attack: 2,
+    defense: 1,
     widthSprite: 420,
     heightSprite: 360,
     sprites: {

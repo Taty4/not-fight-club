@@ -41,14 +41,15 @@ export class GroupCheckbox {
   }
 
   checkValid() {
-    if (this.type === "attack" && this.slectedInputs.length === 2) {
+    if (this.type === "attack" && this.slectedInputs.length === 1) {
       this.isValid = true;
       return;
     }
-    if (this.type === "defense" && this.slectedInputs.length === 1) {
+    if (this.type === "defense" && this.slectedInputs.length === 2) {
       this.isValid = true;
       return;
     }
+
     this.isValid = false;
   }
 

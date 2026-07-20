@@ -13,7 +13,13 @@ export class HealthBar {
 
     this.name = document.createElement("p");
     this.name.className = `${this.type}-name battle-name`;
-    this.name.textContent = `${this.player.name}`;
+
+    if (this.type === "player") {
+      const customName = JSON.parse(localStorage.getItem("currentName-taty4"));
+      this.name.textContent = customName ?? "Вы";
+    } else {
+      this.name.textContent = `${this.player.name}`;
+    }
 
     this.progressBar = document.createElement("div");
     this.progressBar.className = `progress-bar`;

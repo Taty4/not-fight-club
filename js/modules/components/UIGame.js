@@ -1,5 +1,3 @@
-import { FIGHTERS_DATABASE } from "./fightersData.js";
-
 class Fighter {
   #startPosition;
 
