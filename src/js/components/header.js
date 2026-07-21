@@ -1,16 +1,25 @@
-import { router } from "../../main.js";
+import { router } from "../router";
+import logoImg from "../../assets/images/logo.webp";
 
-class Header {
+export class Header {
   element;
-  constructor() {
+  constructor(page, destroyPage) {
     this.element = document.createElement("div");
+    this.destroyOldPage = destroyPage;
     this.create();
     this.listener();
   }
 
   listener() {
-    console.log(this.btnHome);
-    this.btnHome.addEventListener("click", () => router.navigate("/home"));
+    this.btnHome.addEventListener("click", () => {
+      this.destroyOldPage();
+      router.navigate("/home");
+    });
+
+    this.btnCharacter.addEventListener("click", () => {
+      this.destroyOldPage();
+      router.navigate("/character");
+    });
   }
 
   create() {
@@ -21,7 +30,7 @@ class Header {
     this.btnHome.className = "btn-home";
 
     const logo = document.createElement("img");
-    logo.src = "./assets/images/logo.webp";
+    logo.src = logoImg;
     logo.className = "logo";
 
     this.leftPart = document.createElement("div");
@@ -61,5 +70,3 @@ class Header {
     });
   }
 }
-
-export const header = new Header();

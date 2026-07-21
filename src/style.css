@@ -11,11 +11,12 @@ html {
 
 #app {
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #b4b2b2;
-  background-image: url(../assets/images/bg.webp);
+  background-image: url(./assets/images/bg.webp);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -24,9 +25,8 @@ html {
 .header {
   position: relative;
   display: grid;
-  /* Центральный элемент позиционируется по центру, а боковые занимают оставшееся место */
   grid-template-columns: 1fr auto 1fr;
-  align-items: start; /* Выравнивание по вертикали */
+  align-items: start;
 }
 
 .logo {
@@ -55,7 +55,7 @@ html {
   width: 100%;
   max-width: 10rem;
   padding: 0.5rem 1rem;
-  background-image: url(../assets/images/small-plank.png);
+  background-image: url(./assets/images/small-plank.png);
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -69,7 +69,7 @@ html {
 .btn-home:hover,
 .btn-setting:hover,
 .btn-character:hover {
-  background-image: url(../assets/images/small-plank-active.png);
+  background-image: url(./assets/images/small-plank-active.png);
 }
 
 .health-player,
@@ -80,7 +80,7 @@ html {
   padding: 2px 3px;
   width: 35%;
   height: 14px;
-  background-image: url(../assets/images/plank.png);
+  background-image: url(./assets/images/plank.png);
   background-size: 120% 300%;
   background-position: center;
   border-radius: 1rem;
@@ -155,7 +155,7 @@ html {
   max-width: 1080px;
   height: auto;
   border: calc(10px + 1.5vw) solid transparent;
-  border-image: url(../assets/images/woodenframe.png) 660 760 710 730;
+  border-image: url(./assets/images/woodenframe.png) 660 760 710 730;
 }
 
 .canvas {
@@ -190,7 +190,7 @@ input[name="defense"] {
 
 input[name="attack"]:checked + .label-zones,
 input[name="defense"]:checked + .label-zones {
-  background: url(../assets/images/plank-active.png);
+  background: url(./assets/images/plank-active.png);
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -209,7 +209,7 @@ input[name="defense"]:checked + .label-zones::after {
   color: #c0fffc;
   font-weight: 600;
   border-radius: 1rem;
-  background: url(../assets/images/plank.png);
+  background: url(./assets/images/plank.png);
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -244,7 +244,7 @@ input[name="defense"]:checked + .label-zones::after {
   filter: brightness(1.1);
   background-image:
     linear-gradient(rgba(184, 0, 0, 0.65), rgba(172, 0, 0, 0.65)),
-    url(../assets/images/vecteezy_protection-metallic-shield-clipart-design-illustration_9384342.png);
+    url(./assets/images/vecteezy_protection-metallic-shield-clipart-design-illustration_9384342.png);
   font-size: 2rem;
   background-size: contain;
   cursor: pointer;
@@ -260,4 +260,34 @@ input[name="defense"]:checked + .label-zones::after {
 
 .btn-fight:hover {
   transform: translate(-50%, 50%) scale(1.05);
+}
+
+/* Логин */
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Персонажи */
+
+.conatiner-characters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.wrapper-character {
+  width: 100%px;
+  max-width: 250px;
+  cursor: pointer;
+}
+
+.wrapper-character img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
 }

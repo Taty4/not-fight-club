@@ -1,3 +1,5 @@
+import arena from "../../assets/images/scene.webp";
+
 class Fighter {
   #startPosition;
 
@@ -51,7 +53,8 @@ class Fighter {
   }
 
   move() {
-    const step = this.direction === "right" ? 10 : -10;
+    const step = this.direction === "right" ? 240 : -240;
+
     this.#changeState("run", step, this.spriteRun, this.sprites.run);
     this.isFlipped = this.direction === "left";
     this.isBusy = true;
@@ -62,19 +65,23 @@ class Fighter {
   }
 
   moveBack() {
-    const step = this.direction === "right" ? -10 : 10;
-    this.#changeState("run_back", step, this.spriteRun, this.sprites.run);
+    const step = this.direction === "right" ? -240 : 240;
 
+    this.#changeState("run_back", step, this.spriteRun, this.sprites.run);
     this.isFlipped = this.direction === "right";
   }
 
-  update() {
-    this.timer++;
+  update(dt) {
+    this.dx += this.step * dt;
 
-    if (this.timer >= 3) {
+    this.timer += dt;
+
+    const frameDuration = 0.05;
+
+    if (this.timer >= frameDuration) {
       this.currentFrame++;
 
-      this.timer = 0;
+      this.timer -= frameDuration;
 
       if (this.currentFrame >= this.currentCountFrames) {
         if (this.currentState === "run") {
@@ -82,8 +89,8 @@ class Fighter {
         } else if (this.currentState === "attack") {
           this.moveBack();
         } else if (this.currentState === "run_back") {
-          this.dx = this.#startPosition; // Только ТЕПЕРЬ, когда он добежал, выравниваем позицию
-          this.idle(); // Встаем в стойку
+          this.dx = this.#startPosition;
+          this.idle();
           this.isBusy = false;
         }
 
@@ -95,7 +102,6 @@ class Fighter {
       this.sy =
         Math.floor(this.currentFrame / this.currentCountColumns) *
         this.heightSprite;
-      this.dx += this.step;
     }
   }
 
@@ -115,6 +121,9 @@ class Fighter {
 }
 
 export class Game {
+  #animationID = null;
+  #lastTime = 0;
+
   constructor(playerConfig, enemyConfig) {
     this.element = document.createElement("canvas");
     this.element.width = 800;
@@ -124,7 +133,9 @@ export class Game {
     this.ctx = this.element.getContext("2d");
 
     this.background = new Image();
-    this.background.src = "./assets/images/scene.webp";
+    this.background.onload = () => this.draw();
+    this.background.src = arena;
+
     this.player = new Fighter({
       ...playerConfig,
       startPosition: 50,
@@ -139,31 +150,62 @@ export class Game {
   }
 
   init() {
-    this.player.update();
-    this.enemy.update();
-
+    this.player.update(0);
+    this.enemy.update(0);
     this.draw();
 
-    requestAnimationFrame(() => this.init());
+    this.startLoop();
+  }
+
+  startLoop() {
+    if (this.#animationID !== null) {
+      this.cancelAnimation();
+    }
+
+    this.#lastTime = performance.now();
+
+    const render = (timestamp) => {
+      let dt = (timestamp - this.#lastTime) / 1000;
+
+      if (dt > 0.1) dt = 0.1;
+
+      this.#lastTime = timestamp;
+
+      this.player.update(dt);
+      this.enemy.update(dt);
+
+      this.draw();
+
+      this.#animationID = requestAnimationFrame(render);
+    };
+
+    this.#animationID = requestAnimationFrame(render);
   }
 
   start() {
     if (this.player.isBusy || this.enemy.isBusy) return;
     this.player.move();
     this.enemy.move();
-    console.log(this.player, this.enemy);
+  }
+
+  cancelAnimation() {
+    if (this.#animationID !== null) {
+      cancelAnimationFrame(this.#animationID);
+      this.#animationID = null;
+    }
   }
 
   draw() {
+    if (!this.background.complete) return;
+
     const playerOptions = this.player.getOptions();
     const enemyOptions = this.enemy.getOptions();
 
     this.ctx.clearRect(0, 0, this.element.width, this.element.height);
 
-    this.ctx.save();
-
     this.ctx.drawImage(this.background, -100, 0, 1000, 350);
 
+    this.ctx.save();
     if (this.player.isFlipped) {
       this.ctx.translate(
         playerOptions.dx + playerOptions.width / 2,
@@ -194,11 +236,9 @@ export class Game {
         playerOptions.height,
       );
     }
-
     this.ctx.restore();
 
     this.ctx.save();
-
     if (this.enemy.isFlipped) {
       this.ctx.translate(
         enemyOptions.dx + enemyOptions.width / 2,
@@ -229,7 +269,6 @@ export class Game {
         enemyOptions.height,
       );
     }
-
     this.ctx.restore();
   }
 }

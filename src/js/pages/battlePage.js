@@ -1,10 +1,11 @@
 import { GroupCheckbox } from "../components/groupCheckbox.js";
 import { HealthBar } from "../components/healthBar.js";
 import { Game } from "../components/UIGame.js";
-import { header } from "../components/header.js";
+import { Header } from "../components/header.js";
 import { FIGHTERS_DATABASE } from "../fightersData.js";
 
 export class BattlePage {
+  #delayID = null;
   constructor() {
     this.setPlayer();
     this.setEnemy();
@@ -29,21 +30,22 @@ export class BattlePage {
         this.enemyConfig,
       );
 
-      this.healthBarPlayer.setHealth(
-        this.playerConfig.currentHealth,
-        this.playerConfig.health,
-      );
-      this.healthBarEnemy.setHealth(
-        this.enemyConfig.currentHealth,
-        this.enemyConfig.health,
-      );
+      this.#delayID = setTimeout(() => {
+        this.healthBarPlayer.setHealth(
+          this.playerConfig.currentHealth,
+          this.playerConfig.health,
+        );
+        this.healthBarEnemy.setHealth(
+          this.enemyConfig.currentHealth,
+          this.enemyConfig.health,
+        );
+      }, 1500);
     });
   }
 
   render() {
     this.app = document.querySelector("#app");
-    this.header = header;
-    header.create();
+    this.header = new Header("battle", () => this.destroy());
 
     this.groupAttackZones = new GroupCheckbox("attack", () =>
       this.updateButton(),
@@ -113,6 +115,11 @@ export class BattlePage {
     const enabled =
       this.groupAttackZones.isValid && this.groupDefenseZones.isValid;
     this.btnBattle.element.disabled = !enabled;
+  }
+
+  destroy() {
+    this.game.cancelAnimation();
+    clearTimeout(this.#delayID);
   }
 }
 
