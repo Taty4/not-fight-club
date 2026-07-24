@@ -1,14 +1,20 @@
 import arena from "../../assets/images/scene.webp";
+import sounds from "../audioManager";
 
 class Fighter {
   #startPosition;
+  battleOutcome = null;
 
   constructor(options) {
+    this.key = options.key;
+    this.sounds = options.sounds;
     this.sprites = options.sprites;
 
     this.spriteRun = this.sprites.run.image;
     this.spriteIdle = this.sprites.idle.image;
     this.spriteAttack = this.sprites.attack.image;
+    this.spriteDying = this.sprites.dying.image;
+    this.spriteHurt = this.sprites.hurt.image;
 
     this.step = 0;
     this.widthSprite = options.widthSprite;
@@ -54,21 +60,37 @@ class Fighter {
 
   move() {
     const step = this.direction === "right" ? 240 : -240;
-
+    sounds.playSFX("run");
     this.#changeState("run", step, this.spriteRun, this.sprites.run);
     this.isFlipped = this.direction === "left";
     this.isBusy = true;
   }
 
   attack() {
+    const myHitSounds = `${this.key}_hit`;
+    sounds.playSFX(myHitSounds);
     this.#changeState("attack", 0, this.spriteAttack, this.sprites.attack);
+  }
+
+  hurt() {
+    const myHurtSounds = `${this.key}_hurt`;
+    sounds.playSFX(myHurtSounds);
+    this.#changeState("hurt", 0, this.spriteHurt, this.sprites.hurt);
+  }
+
+  dying() {
+    this.#changeState("daying", 0, this.spriteDying, this.sprites.dying);
   }
 
   moveBack() {
     const step = this.direction === "right" ? -240 : 240;
-
+    sounds.playSFX("run");
     this.#changeState("run_back", step, this.spriteRun, this.sprites.run);
     this.isFlipped = this.direction === "right";
+  }
+
+  gameOver(callback) {
+    callback();
   }
 
   update(dt) {
@@ -85,10 +107,23 @@ class Fighter {
 
       if (this.currentFrame >= this.currentCountFrames) {
         if (this.currentState === "run") {
-          this.attack();
+          sounds.stopSFX("run");
+          if (this.battleOutcome === "lose") {
+            this.hurt();
+          } else {
+            this.attack();
+          }
+        } else if (this.currentState === "hurt") {
+          this.dying();
+          this.isBusy = false;
         } else if (this.currentState === "attack") {
-          this.moveBack();
+          if (this.battleOutcome === "mutualLose") {
+            this.hurt();
+          } else {
+            this.moveBack();
+          }
         } else if (this.currentState === "run_back") {
+          sounds.stopSFX("run");
           this.dx = this.#startPosition;
           this.idle();
           this.isBusy = false;
@@ -123,14 +158,29 @@ class Fighter {
 export class Game {
   #animationID = null;
   #lastTime = 0;
+  isTimeToUpdateHealth = false;
+  isTimeToUpdateButton = false;
+  isGameOver = false;
 
-  constructor(playerConfig, enemyConfig) {
-    this.element = document.createElement("canvas");
-    this.element.width = 800;
-    this.element.height = 350;
-    this.element.className = "canvas";
+  constructor(
+    canvas,
+    ctx,
+    playerConfig,
+    enemyConfig,
+    updateHealth,
+    updateButton,
+    showModal,
+  ) {
+    this.updateHealth = updateHealth;
+    this.updateButton = updateButton;
+    this.showModal = showModal;
+    this.isGameOver = false;
+    this.canvas = canvas;
+    this.canvas.width = 800;
+    this.canvas.height = 350;
+    this.canvas.className = "canvas";
 
-    this.ctx = this.element.getContext("2d");
+    this.ctx = ctx;
 
     this.background = new Image();
     this.background.onload = () => this.draw();
@@ -176,6 +226,32 @@ export class Game {
 
       this.draw();
 
+      if (this.isTimeToUpdateHealth) {
+        if (
+          this.player.currentState === "attack" ||
+          this.enemy.currentState === "attack" ||
+          this.player.currentState === "hurt" ||
+          this.enemy.currentState === "hurt"
+        ) {
+          this.updateHealth();
+          this.isTimeToUpdateHealth = false;
+        }
+      }
+
+      if (this.isTimeToUpdateButton) {
+        if (!this.player.isBusy && !this.enemy.isBusy) {
+          this.updateButton();
+          this.isTimeToUpdateButton = false;
+        }
+      }
+
+      if (this.isGameOver) {
+        if (!this.player.isBusy && !this.enemy.isBusy) {
+          this.showModal(this.looser);
+          this.isGameOver = false;
+        }
+      }
+
       this.#animationID = requestAnimationFrame(render);
     };
 
@@ -184,14 +260,32 @@ export class Game {
 
   start() {
     if (this.player.isBusy || this.enemy.isBusy) return;
+    this.isTimeToUpdateHealth = true;
+    this.isTimeToUpdateButton = true;
     this.player.move();
     this.enemy.move();
+  }
+
+  setBattleOutcome(looser) {
+    this.looser = looser;
+
+    this.isGameOver = true;
+    if (looser === "player") {
+      this.player.battleOutcome = "lose";
+    } else if (looser === "enemy") {
+      this.enemy.battleOutcome = "lose";
+    } else {
+      this.player.battleOutcome = "mutualLose";
+      this.enemy.battleOutcome = "mutualLose";
+    }
   }
 
   cancelAnimation() {
     if (this.#animationID !== null) {
       cancelAnimationFrame(this.#animationID);
       this.#animationID = null;
+      this.player.isBusy = false;
+      this.enemy.isBusy = false;
     }
   }
 
@@ -200,8 +294,7 @@ export class Game {
 
     const playerOptions = this.player.getOptions();
     const enemyOptions = this.enemy.getOptions();
-
-    this.ctx.clearRect(0, 0, this.element.width, this.element.height);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.ctx.drawImage(this.background, -100, 0, 1000, 350);
 

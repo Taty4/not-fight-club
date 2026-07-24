@@ -1,72 +1,62 @@
 import { router } from "../router";
-import logoImg from "../../assets/images/logo.webp";
+import logoImg from "../../assets/images/logo-new.webp";
 
 export class Header {
   element;
-  constructor(page, destroyPage) {
+  constructor(page) {
     this.element = document.createElement("div");
-    this.destroyOldPage = destroyPage;
     this.create();
     this.listener();
   }
 
   listener() {
     this.btnHome.addEventListener("click", () => {
-      this.destroyOldPage();
       router.navigate("/home");
     });
 
     this.btnCharacter.addEventListener("click", () => {
-      this.destroyOldPage();
       router.navigate("/character");
+    });
+
+    this.btnSetting.addEventListener("click", () => {
+      router.navigate("/setting");
     });
   }
 
   create() {
     this.element.className = "header";
 
-    this.btnHome = document.createElement("button");
-    this.btnHome.textContent = "Домой";
-    this.btnHome.className = "btn-home";
+    const containerLogo = document.createElement("div");
+    containerLogo.className = "container-logo";
 
     const logo = document.createElement("img");
     logo.src = logoImg;
     logo.className = "logo";
 
-    this.leftPart = document.createElement("div");
-    this.leftPart.className = "header-left";
-    this.rightPart = document.createElement("div");
-    this.rightPart.className = "header-right";
+    const subLogo = document.createElement("p");
+    subLogo.className = "sublogo-txt";
+    subLogo.textContent = "Земля случайных встреч";
+
+    containerLogo.append(logo /* , subLogo */);
+
+    const containerHeaderBtns = document.createElement("div");
+    containerHeaderBtns.className = "header-container-btn";
+
+    this.btnHome = document.createElement("button");
+    this.btnHome.className = "header-btn-home";
 
     this.btnSetting = document.createElement("button");
-    this.btnSetting.textContent = "Настройки";
-    this.btnSetting.className = "btn-setting";
+    this.btnSetting.className = "header-btn-setting";
 
     this.btnCharacter = document.createElement("button");
-    this.btnCharacter.textContent = "Персонаж";
-    this.btnCharacter.className = "btn-character";
+    this.btnCharacter.className = "header-btn-character";
 
-    const rightWrapper = document.createElement("div");
-    rightWrapper.className = "header-right-wrapper";
-    rightWrapper.append(this.btnSetting, this.btnCharacter);
+    containerHeaderBtns.append(
+      this.btnHome,
+      this.btnCharacter,
+      this.btnSetting,
+    );
 
-    this.leftPart.append(this.btnHome);
-    this.rightPart.append(rightWrapper);
-
-    this.element.append(this.leftPart, logo, this.rightPart);
-  }
-
-  listeners() {
-    this.btnHome.addEvenListeners("click", () => {
-      console.log("click home");
-    });
-
-    this.btnSetting.addEvenListeners("click", () => {
-      console.log("click setting");
-    });
-
-    this.btnCharacter.addEvenListeners("click", () => {
-      console.log("click character");
-    });
+    this.element.append(containerLogo, containerHeaderBtns);
   }
 }

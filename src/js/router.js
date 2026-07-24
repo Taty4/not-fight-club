@@ -5,9 +5,10 @@ import { HomePage } from "./pages/homePage.js";
 import { CharacterPage } from "./pages/characterPage.js";
 
 class Router {
+  currentPage = null;
   constructor() {
     this.routes = {
-      "/login": LoginPage,
+      "/": LoginPage,
       "/home": HomePage,
       "/battle": BattlePage,
       "/setting": SettingPage,
@@ -25,9 +26,13 @@ class Router {
   handleRoute() {
     document.getElementById("app").replaceChildren();
 
-    const PageClass = this.routes[window.location.pathname] || LoginPage;
+    if (typeof this.currentPage?.destroy === "function") {
+      this.currentPage.destroy();
+    }
 
-    new PageClass();
+    const PageClass = this.routes[window.location.pathname] || HomePage;
+
+    this.currentPage = new PageClass();
   }
 
   start() {
