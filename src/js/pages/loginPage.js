@@ -21,11 +21,15 @@ export class LoginPage {
     this.input.type = "text";
     this.input.className = "input-login";
 
+    this.warning = document.createElement("span");
+    this.warning.textContent = "Введите имя длиннее 2-ух символов";
+    this.warning.className = "warning-login hidden";
+
     this.btnSubmit = document.createElement("button");
     this.btnSubmit.textContent = "Регистрация";
     this.btnSubmit.className = "submit-login";
 
-    this.form.append(this.input, this.btnSubmit);
+    this.form.append(this.input, this.warning, this.btnSubmit);
 
     const welcome = new WelcomeElement();
     wrapperContent.append(welcome.element, this.form);
@@ -35,7 +39,8 @@ export class LoginPage {
   listener() {
     this.form.addEventListener("submit", (event) => {
       event.preventDefault();
-      if (this.input.value.length > 3) {
+      if (this.input.value.length > 2) {
+        this.warning.classList.add("hidden");
         localStorage.setItem(
           "username-taty4",
           JSON.stringify(this.input.value),
@@ -43,7 +48,7 @@ export class LoginPage {
         router.navigate("/home");
         sounds.playBgmMusic();
       } else {
-        console.log("Введите имя длиннее 3 символов");
+        this.warning.classList.remove("hidden");
       }
     });
   }

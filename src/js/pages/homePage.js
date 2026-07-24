@@ -71,6 +71,6 @@ export class HomePage {
       this.btnSetting,
     );
     wrapperContent.append(welcome.element, wrapperBtns);
-    this.app.append(/* this.header.element, */ wrapperContent);
+    this.app.append(wrapperContent);
   }
 }

@@ -45,7 +45,6 @@ export class BattlePage {
         this.playerConfig.currentHealth <= 0 ||
         this.enemyConfig.currentHealth <= 0
       ) {
-        console.log("Бой уже окончен, вызов заблокирован!");
         return;
       }
       this.game.start();
@@ -117,7 +116,7 @@ export class BattlePage {
       this.battleLogContainer.append(p);
       this.battleLogContainer.scrollTo({
         top: this.battleLogContainer.scrollHeight,
-        behavior: "smooth", // Плавный автоскролл без резких скачков
+        behavior: "smooth",
       });
     });
   }
@@ -129,7 +128,7 @@ export class BattlePage {
 
   render() {
     this.app = document.querySelector("#app");
-    this.header = new Header("battle");
+    this.header = new Header();
 
     this.groupAttackZones = new GroupCheckbox(
       "attack",
@@ -396,7 +395,6 @@ class BattleLogic {
 
     attackerZones.attack.forEach((zone) => {
       const isCrit = Math.random() * 100 < attacker.crit;
-      console.log(attacker.crit);
 
       const isBlocked = defenderZones.defense.includes(zone);
       let actualDamage = isBlocked ? 0 : damagePerHit;
@@ -416,7 +414,6 @@ class BattleLogic {
 
       totalDamageDealt += actualDamage;
 
-      // Записываем хит в общий лог боя
       result.push({
         attacker: attackerName,
         defender: defenderName,
@@ -434,7 +431,6 @@ class BattleLogic {
   getResult() {
     const result = [];
 
-    // 1. Считаем урон параллельно (исходя из текущего живого состояния)
     const damageToEnemy = this.calculateHits(
       this.player,
       this.enemy,

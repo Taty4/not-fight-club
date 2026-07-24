@@ -15,11 +15,11 @@ class Router {
       "/character": CharacterPage,
     };
 
-    window.addEventListener("popstate", () => this.handleRoute());
+    window.addEventListener("hashchange", () => this.handleRoute());
   }
 
   navigate(path) {
-    window.history.pushState({}, "", path);
+    location.hash = path;
     this.handleRoute();
   }
 
@@ -29,8 +29,17 @@ class Router {
     if (typeof this.currentPage?.destroy === "function") {
       this.currentPage.destroy();
     }
-
-    const PageClass = this.routes[window.location.pathname] || HomePage;
+    const path = location.hash.slice(1) || "/";
+    let PageClass;
+    if (!localStorage.getItem("username-taty4")) {
+      PageClass = LoginPage;
+    } else {
+      if (path === "/") {
+        PageClass = HomePage;
+      } else {
+        PageClass = this.routes[path] || HomePage;
+      }
+    }
 
     this.currentPage = new PageClass();
   }

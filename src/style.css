@@ -389,7 +389,6 @@ input[name="defense"]:checked + .label-zones::after {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
 }
 
 .input-login {
@@ -399,12 +398,17 @@ input[name="defense"]:checked + .label-zones::after {
   font-size: 2rem;
 }
 
-/* .submit-login {
-  width: 100%;
-  max-width: 300px;
-  padding: 1rem 2rem;
-  cursor: pointer;
-} */
+.warning-login {
+  color: #e44242;
+}
+
+.warning-login.hidden {
+  display: none;
+}
+
+.submit-login {
+  margin-top: 2rem;
+}
 
 /* HomePage */
 
@@ -803,4 +807,27 @@ input[name="defense"]:checked + .label-zones::after {
 .damage {
   color: var(--enemy-accent);
   font-weight: 600;
+}
+
+/* Setting */
+
+.setting-container-name {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-change-name.hidden {
+  display: none;
+}
+
+.div-change-name.hidden {
+  display: none;
+}
+
+.warnig-name {
+  color: #e44242;
+}
+
+.warnig-name.hidden {
+  display: none;
 }

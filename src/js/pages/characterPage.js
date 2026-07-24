@@ -16,7 +16,7 @@ export class CharacterPage {
 
   render() {
     this.app = document.querySelector("#app");
-    this.header = new Header("character");
+    this.header = new Header();
 
     const pageName = document.createElement("p");
     pageName.className = "page-name";

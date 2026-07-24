@@ -3,7 +3,7 @@ import logoImg from "../../assets/images/logo-new.webp";
 
 export class Header {
   element;
-  constructor(page) {
+  constructor() {
     this.element = document.createElement("div");
     this.create();
     this.listener();
@@ -37,7 +37,7 @@ export class Header {
     subLogo.className = "sublogo-txt";
     subLogo.textContent = "Земля случайных встреч";
 
-    containerLogo.append(logo /* , subLogo */);
+    containerLogo.append(logo);
 
     const containerHeaderBtns = document.createElement("div");
     containerHeaderBtns.className = "header-container-btn";
