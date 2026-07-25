@@ -1,4 +1,6 @@
 import { FIGHTERS_DATABASE } from "./fightersData";
+import bgmMusic from "../assets/audio/back-full.mp3";
+import run from "../assets/audio/run.mp3";
 
 export class audioManager {
   constructor() {
@@ -102,8 +104,8 @@ export class audioManager {
 }
 
 const sounds = new audioManager();
-sounds.initBgmMusic("../src/assets/audio/back-full.mp3");
-sounds.loadSFX("run", "../src/assets/audio/run.mp3");
+sounds.initBgmMusic(bgmMusic);
+sounds.loadSFX("run", run);
 sounds.preloadCharacterSounds();
 sounds.initAutoPlay();
 export default sounds;

@@ -1,13 +1,25 @@
+import hurt_1 from "../assets/audio/krik.mp3";
+import hurt_2 from "../assets/audio/hurt.mp3";
+import hurt_3 from "../assets/audio/giant-dead.mp3";
+import hurt_4 from "../assets/audio/dead1.mp3";
+import hurt_5 from "../assets/audio/dead2.mp3";
+import hurt_6 from "../assets/audio/death1.mp3";
+
+import hit_1 from "../assets/audio/bulava.mp3";
+import hit_2 from "../assets/audio/hits.mp3";
+import hit_3 from "../assets/audio/mech.mp3";
+import hit_4 from "../assets/audio/mech2.mp3";
+import hit_5 from "../assets/audio/vzmaxmecha.mp3";
+
 export const FIGHTERS_DATABASE = {
   boss: {
     name: "Громбосс Судьбы",
-
     titul: "Железное сердце",
     description:
       "Загадочная фигура, чьё появление редко предвещает что-то хорошее.",
     key: "boss",
-    avatarSrc: "/avatars/boss.webp",
-    imageSrc: "/sprites/boss/image.webp",
+    avatarSrc: `${import.meta.env.BASE_URL}avatars/boss.webp`,
+    imageSrc: `${import.meta.env.BASE_URL}sprites/boss/image.webp`,
     health: 150,
     currentHealth: 150,
     attack: 2,
@@ -19,43 +31,43 @@ export const FIGHTERS_DATABASE = {
     sprites: {
       idle: {
         image: Object.assign(new Image(), {
-          src: "/sprites/boss/idle.webp",
+          src: `${import.meta.env.BASE_URL}sprites/boss/idle.webp`,
         }),
         countFrames: 16,
         countColumns: 4,
       },
       run: {
         image: Object.assign(new Image(), {
-          src: "/sprites/boss/running.webp",
+          src: `${import.meta.env.BASE_URL}sprites/boss/running.webp`,
         }),
         countFrames: 12,
         countColumns: 4,
       },
       attack: {
         image: Object.assign(new Image(), {
-          src: "/sprites/boss/attack.webp",
+          src: `${import.meta.env.BASE_URL}sprites/boss/attack.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
       dying: {
         image: Object.assign(new Image(), {
-          src: "/sprites/boss/dying.webp",
+          src: `${import.meta.env.BASE_URL}sprites/boss/dying.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
       hurt: {
         image: Object.assign(new Image(), {
-          src: "/sprites/boss/hurt.webp",
+          src: `${import.meta.env.BASE_URL}sprites/boss/hurt.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
     },
     sounds: {
-      hit: "../src/assets/audio/mech.mp3",
-      hurt: "../src/assets/audio/dead1.mp3",
+      hit: hit_1,
+      hurt: hurt_1,
     },
   },
   giant: {
@@ -64,8 +76,8 @@ export const FIGHTERS_DATABASE = {
     description:
       "Зелёный обитатель севера, не отличающийся особой любовью к честным правилам.",
     key: "giant",
-    avatarSrc: "/avatars/giant.webp",
-    imageSrc: "/sprites/giant/image.webp",
+    avatarSrc: `${import.meta.env.BASE_URL}avatars/giant.webp`,
+    imageSrc: `${import.meta.env.BASE_URL}sprites/giant/image.webp`,
     health: 90,
     currentHealth: 90,
     attack: 3,
@@ -77,43 +89,43 @@ export const FIGHTERS_DATABASE = {
     sprites: {
       idle: {
         image: Object.assign(new Image(), {
-          src: "/sprites/giant/idle.webp",
+          src: `${import.meta.env.BASE_URL}sprites/giant/idle.webp`,
         }),
         countFrames: 16,
         countColumns: 4,
       },
       run: {
         image: Object.assign(new Image(), {
-          src: "/sprites/giant/running.webp",
+          src: `${import.meta.env.BASE_URL}sprites/giant/running.webp`,
         }),
         countFrames: 12,
         countColumns: 4,
       },
       attack: {
         image: Object.assign(new Image(), {
-          src: "/sprites/giant/attack.webp",
+          src: `${import.meta.env.BASE_URL}sprites/giant/attack.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
       dying: {
         image: Object.assign(new Image(), {
-          src: "/sprites/giant/dying.webp",
+          src: `${import.meta.env.BASE_URL}sprites/giant/dying.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
       hurt: {
         image: Object.assign(new Image(), {
-          src: "/sprites/giant/hurt.webp",
+          src: `${import.meta.env.BASE_URL}sprites/giant/hurt.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
     },
     sounds: {
-      hit: "../src/assets/audio/bulava.mp3",
-      hurt: "../src/assets/audio/giant-dead.mp3",
+      hit: hit_1,
+      hurt: hurt_3,
     },
   },
   leader: {
@@ -123,8 +135,8 @@ export const FIGHTERS_DATABASE = {
     description:
       "Суровый северянин, привыкший к холоду, снегу и морским походам.",
     key: "leader",
-    avatarSrc: "/avatars/leader.webp",
-    imageSrc: "/sprites/leader/image.webp",
+    avatarSrc: `${import.meta.env.BASE_URL}avatars/leader.webp`,
+    imageSrc: `${import.meta.env.BASE_URL}sprites/leader/image.webp`,
     health: 110,
     currentHealth: 110,
     attack: 2,
@@ -136,43 +148,43 @@ export const FIGHTERS_DATABASE = {
     sprites: {
       idle: {
         image: Object.assign(new Image(), {
-          src: "/sprites/leader/idle.webp",
+          src: `${import.meta.env.BASE_URL}sprites/leader/idle.webp`,
         }),
         countFrames: 16,
         countColumns: 4,
       },
       run: {
         image: Object.assign(new Image(), {
-          src: "/sprites/leader/running.webp",
+          src: `${import.meta.env.BASE_URL}sprites/leader/running.webp`,
         }),
         countFrames: 12,
         countColumns: 4,
       },
       attack: {
         image: Object.assign(new Image(), {
-          src: "/sprites/leader/attack.webp",
+          src: `${import.meta.env.BASE_URL}sprites/leader/attack.webp`,
         }),
         countFrames: 8,
         countColumns: 4,
       },
       dying: {
         image: Object.assign(new Image(), {
-          src: "/sprites/leader/dying.webp",
+          src: `${import.meta.env.BASE_URL}sprites/leader/dying.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
       hurt: {
         image: Object.assign(new Image(), {
-          src: "/sprites/leader/hurt.webp",
+          src: `${import.meta.env.BASE_URL}sprites/leader/hurt.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
     },
     sounds: {
-      hit: "../src/assets/audio/mech2.mp3",
-      hurt: "../src/assets/audio/dead2.mp3",
+      hit: hit_2,
+      hurt: hurt_2,
     },
   },
   aztec: {
@@ -187,50 +199,50 @@ export const FIGHTERS_DATABASE = {
     defense: 2,
     crit: 15,
     damage: 18,
-    avatarSrc: "/avatars/aztec.webp",
-    imageSrc: "/sprites/aztec/image.webp",
+    avatarSrc: `${import.meta.env.BASE_URL}avatars/aztec.webp`,
+    imageSrc: `${import.meta.env.BASE_URL}sprites/aztec/image.webp`,
     widthSprite: 420,
     heightSprite: 360,
     sprites: {
       idle: {
         image: Object.assign(new Image(), {
-          src: "/sprites/aztec/idle.webp",
+          src: `${import.meta.env.BASE_URL}sprites/aztec/idle.webp`,
         }),
         countFrames: 16,
         countColumns: 4,
       },
       run: {
         image: Object.assign(new Image(), {
-          src: "/sprites/aztec/running.webp",
+          src: `${import.meta.env.BASE_URL}sprites/aztec/running.webp`,
         }),
         countFrames: 12,
         countColumns: 4,
       },
       attack: {
         image: Object.assign(new Image(), {
-          src: "/sprites/aztec/attack.webp",
+          src: `${import.meta.env.BASE_URL}sprites/aztec/attack.webp`,
         }),
         countFrames: 8,
         countColumns: 4,
       },
       dying: {
         image: Object.assign(new Image(), {
-          src: "/sprites/aztec/dying.webp",
+          src: `${import.meta.env.BASE_URL}sprites/aztec/dying.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
       hurt: {
         image: Object.assign(new Image(), {
-          src: "/sprites/aztec/hurt.webp",
+          src: `${import.meta.env.BASE_URL}sprites/aztec/hurt.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
     },
     sounds: {
-      hit: "../src/assets/audio/hits.mp3",
-      hurt: "../src/assets/audio/hurt.mp3",
+      hit: hit_4,
+      hurt: hurt_4,
     },
   },
 
@@ -239,8 +251,8 @@ export const FIGHTERS_DATABASE = {
     titul: "Железное сердце",
     description: "Таинственный воитель из далёких земель с древней историей.",
     key: "maya",
-    avatarSrc: "/avatars/maya.webp",
-    imageSrc: "/sprites/maya/image.webp",
+    avatarSrc: `${import.meta.env.BASE_URL}avatars/maya.webp`,
+    imageSrc: `${import.meta.env.BASE_URL}sprites/maya/image.webp`,
     health: 140,
     currentHealth: 140,
     attack: 2,
@@ -252,43 +264,43 @@ export const FIGHTERS_DATABASE = {
     sprites: {
       idle: {
         image: Object.assign(new Image(), {
-          src: "/sprites/maya/idle.webp",
+          src: `${import.meta.env.BASE_URL}sprites/maya/idle.webp`,
         }),
         countFrames: 16,
         countColumns: 4,
       },
       run: {
         image: Object.assign(new Image(), {
-          src: "/sprites/maya/running.webp",
+          src: `${import.meta.env.BASE_URL}sprites/maya/running.webp`,
         }),
         countFrames: 12,
         countColumns: 4,
       },
       attack: {
         image: Object.assign(new Image(), {
-          src: "/sprites/maya/attack.webp",
+          src: `${import.meta.env.BASE_URL}sprites/maya/attack.webp`,
         }),
         countFrames: 8,
         countColumns: 4,
       },
       dying: {
         image: Object.assign(new Image(), {
-          src: "/sprites/maya/dying.webp",
+          src: `${import.meta.env.BASE_URL}sprites/maya/dying.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
       hurt: {
         image: Object.assign(new Image(), {
-          src: "/sprites/maya/hurt.webp",
+          src: `${import.meta.env.BASE_URL}sprites/maya/hurt.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
     },
     sounds: {
-      hit: "../src/assets/audio/vzmaxmecha.mp3",
-      hurt: "../src/assets/audio/dead1.mp3",
+      hit: hit_5,
+      hurt: hurt_5,
     },
   },
   nordic: {
@@ -297,8 +309,8 @@ export const FIGHTERS_DATABASE = {
     description:
       "Житель северных земель, для которого суровый климат стал частью повседневной жизни.",
     key: "nordic",
-    avatarSrc: "/avatars/nordic.webp",
-    imageSrc: "/sprites/nordic/image.webp",
+    avatarSrc: `${import.meta.env.BASE_URL}avatars/nordic.webp`,
+    imageSrc: `${import.meta.env.BASE_URL}sprites/nordic/image.webp`,
     health: 115,
     currentHealth: 115,
     attack: 2,
@@ -310,43 +322,43 @@ export const FIGHTERS_DATABASE = {
     sprites: {
       idle: {
         image: Object.assign(new Image(), {
-          src: "/sprites/nordic/idle.webp",
+          src: `${import.meta.env.BASE_URL}sprites/nordic/idle.webp`,
         }),
         countFrames: 16,
         countColumns: 4,
       },
       run: {
         image: Object.assign(new Image(), {
-          src: "/sprites/nordic/running.webp",
+          src: `${import.meta.env.BASE_URL}sprites/nordic/running.webp`,
         }),
         countFrames: 12,
         countColumns: 4,
       },
       attack: {
         image: Object.assign(new Image(), {
-          src: "/sprites/nordic/attack.webp",
+          src: `${import.meta.env.BASE_URL}sprites/nordic/attack.webp`,
         }),
         countFrames: 8,
         countColumns: 4,
       },
       dying: {
         image: Object.assign(new Image(), {
-          src: "/sprites/nordic/dying.webp",
+          src: `${import.meta.env.BASE_URL}sprites/nordic/dying.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
       hurt: {
         image: Object.assign(new Image(), {
-          src: "/sprites/nordic/hurt.webp",
+          src: `${import.meta.env.BASE_URL}sprites/nordic/hurt.webp`,
         }),
         countFrames: 10,
         countColumns: 5,
       },
     },
     sounds: {
-      hit: "../src/assets/audio/vzmaxmecha.mp3",
-      hurt: "../src/assets/audio/death1.mp3",
+      hit: hit_2,
+      hurt: hurt_6,
     },
   },
 };
