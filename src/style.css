@@ -1,7 +1,7 @@
 html {
   font-size: 10px;
-  scrollbar-width: thin; /* Делает полосу тонкой на уровне системы */
-  scrollbar-color: rgba(13, 24, 33, 0.4) transparent; /* Ползунок и трек */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(13, 24, 33, 0.4) transparent;
 }
 
 * {
@@ -18,16 +18,9 @@ html {
   --deep-blue: #1d4e63;
   --light-accent: #c5f1f7;
   --light-text: #dce8ea;
-  --enemy-accent: #9c0b0b; /* #7a0000 */
+  --enemy-accent: #9c0b0b;
   --player-accent: #006ec9;
-
-  /* Фон: #0D1821 — очень тёмный холодный сине-серый
--- Тёмный камень: #252D32 / #343D42
-Голубой лёд: #8DD7E8
-Холодный синий: #3D8FA8
-Глубокий синий: #1D4E63
-Светлый акцент: #C5F1F7
-Текст: #DCE8EA */
+  --warning-color: #cc3d3d;
 }
 
 body {
@@ -250,7 +243,8 @@ body {
 }
 
 input[name="attack"],
-input[name="defense"] {
+input[name="defense"],
+input[name="sound-control"] {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -394,12 +388,24 @@ input[name="defense"]:checked + .label-zones::after {
 .input-login {
   width: 100%;
   max-width: 300px;
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1rem;
   font-size: 2rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: var(--light-text);
+  font-size: 2.2rem;
+  outline: 1px solid transparent;
+  color: var(--dark-blue);
+}
+
+.input-login:focus {
+  outline: 2px solid var(--cold-blue);
+  outline-offset: -3px;
 }
 
 .warning-login {
-  color: #e44242;
+  margin-top: 0.5rem;
+  color: var(--warning-color);
 }
 
 .warning-login.hidden {
@@ -469,7 +475,8 @@ input[name="defense"]:checked + .label-zones::after {
 .home-btn-new-battle:hover,
 .home-btn-continue-battle:hover,
 .home-btn-character:hover,
-.home-btn-setting:hover {
+.home-btn-setting:hover,
+.submit-login:hover {
   background-image: url(./assets/images/plank-active.webp);
 }
 
@@ -552,6 +559,7 @@ input[name="defense"]:checked + .label-zones::after {
   max-width: 300px;
   flex-wrap: wrap;
   background-color: var(--dark-stone);
+  box-shadow: 0px 0px 21px 2px rgba(13, 24, 33, 0.73);
 }
 
 .wrapper-character {
@@ -592,6 +600,7 @@ input[name="defense"]:checked + .label-zones::after {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0px 0px 21px 2px rgba(13, 24, 33, 0.73);
 }
 
 .wrapper-chose-character-image {
@@ -633,6 +642,7 @@ input[name="defense"]:checked + .label-zones::after {
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
+  padding-bottom: 2rem;
 }
 
 .characteristic-conatiner p {
@@ -648,24 +658,26 @@ input[name="defense"]:checked + .label-zones::after {
 }
 
 .charcter-warning {
-  color: #e44242;
+  color: var(--warning-color);
 }
 
 .btn-save-caharacter {
   align-self: center;
-  max-width: 100px;
+  max-width: 200px;
   width: 100%;
   cursor: pointer;
-  padding: 0.7rem 1rem;
+  padding: 1rem 1rem;
   border-radius: 0.5rem;
-  background-color: var(--cold-blue);
+  background-color: transparent;
+  background-image: url(./assets/images/plank-active.webp);
+  background-size: 100% 100%;
   border: none;
-  color: var(--dark-blue);
-  transition: background-color 0.3s;
+  color: var(--light-accent);
+  transition: background-image 0.3s;
 }
 
 .btn-save-caharacter:hover {
-  background-color: var(--light-accent);
+  background-image: url(./assets/images/plank.webp);
 }
 
 .btn-save-caharacter:disabled {
@@ -675,41 +687,43 @@ input[name="defense"]:checked + .label-zones::after {
 
 .statistic-title {
   font-size: 2.6rem;
-  margin-bottom: 1rem;
-  font-family: "Oswald", sans-serif;
+  margin-bottom: 3rem;
   font-size: 2.4rem;
   font-weight: 600;
   color: var(--light-text);
 }
 
 .statistic-player {
+  box-shadow: 0px 0px 21px 2px rgba(13, 24, 33, 0.73);
   background-color: var(--dark-stone);
   border-radius: 1rem;
-  padding: 2rem 2rem;
+  padding: 2rem 3rem;
 }
 
 .statistic-player p:nth-child(2) {
   font-size: 2.4rem;
   margin-bottom: 1.5rem;
-  font-family: "Oswald", sans-serif;
   font-size: 2.4rem;
   font-weight: 600;
   color: var(--light-accent);
 }
 
 .statistic-player p:nth-child(3) {
+  font-family: "Oswald", sans-serif;
   font-size: 2.2rem;
   color: green;
 }
 
 .statistic-player p:nth-child(4) {
+  font-family: "Oswald", sans-serif;
   font-size: 2.2rem;
-  color: #e44242;
+  color: var(--warning-color);
 }
 
 .statistic-player p:nth-child(5) {
+  font-family: "Oswald", sans-serif;
   font-size: 2.2rem;
-  color: var(--dark-blue);
+  color: var(--cold-blue);
 }
 
 /* Modal */
@@ -719,11 +733,11 @@ input[name="defense"]:checked + .label-zones::after {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh; /* 100% высоты видимой области браузера */
-  background: rgba(0, 0, 0, 0.164); /* Полупрозрачный фон сзади */
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.164);
   justify-content: center;
   align-items: flex-start;
-  z-index: 100; /* Чтобы окно было поверх Canvas и картинок */
+  z-index: 100;
 }
 
 .overlay-modal.visible {
@@ -772,7 +786,7 @@ input[name="defense"]:checked + .label-zones::after {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(13, 24, 33, 0.4) transparent;
-  background-color: var(--deep-blue);
+  background-color: var(--cold-blue);
   width: 100%;
   max-width: 1200px;
   padding: 0.5rem 2rem;
@@ -790,7 +804,7 @@ input[name="defense"]:checked + .label-zones::after {
 }
 
 .player {
-  color: var(--player-accent);
+  color: #062361;
   font-weight: 600;
 }
 
@@ -805,15 +819,138 @@ input[name="defense"]:checked + .label-zones::after {
 }
 
 .damage {
-  color: var(--enemy-accent);
+  color: rgb(112, 0, 0);
   font-weight: 600;
 }
 
 /* Setting */
 
-.setting-container-name {
+.setting-page-container {
+  width: 100%;
+  max-width: 80%;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+
+  gap: 2rem;
+}
+
+.setting-container-name,
+.setting-container-sounds {
+  padding: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--dark-stone);
+  border-radius: 1rem;
+  box-shadow: 0px 0px 21px 2px rgba(13, 24, 33, 0.73);
+}
+
+.setting-container-sounds {
+  padding-bottom: 4rem;
+}
+
+.div-change-name,
+.form-change-name {
+  width: 100%;
+  max-width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-change-name,
+.btn-save-name {
+  margin-top: 1rem;
+  padding: 1rem 1rem;
+  width: 100%;
+  max-width: 40%;
+
+  background-image: url(./assets/images/plank-active.webp);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--light-text);
+  transition: background-image 0.3s;
+}
+
+.btn-change-name:hover,
+.btn-save-name:hover {
+  background-image: url(./assets/images/plank.webp);
+}
+
+.input-change-name {
+  min-height: 3rem;
+  display: block;
+  width: 40%;
+  padding: 0.5rem;
+  color: var(--dark-blue);
+  background-color: var(--light-text);
+  border: none;
+}
+
+.setting-username {
+  color: var(--light-accent);
+  font-size: 2.2rem;
+  min-height: 3rem;
+}
+
+.setting-container-sounds {
+  gap: 1.5rem;
+}
+
+.setting-sounds-title {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: var(--light-text);
+}
+
+.item-sounds-setting {
+  width: 100%;
+  max-width: 80%;
+  background-color: var(--deep-blue);
+  border-radius: 0.5rem;
+}
+
+.label-setting {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 1rem;
+  cursor: pointer;
+}
+
+.txt-sounds-control {
+  color: var(--light-accent);
+}
+
+.label-setting::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 2rem;
+  transform: translateY(-50%);
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background-color: var(--dark-blue);
+  border: 1px solid var(--light-text);
+}
+
+.label-setting:has(input[name="sound-control"]:checked)::after {
+  background-color: var(--light-text);
+  box-shadow:
+    inset 0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 20px var(--light-text),
+    0 0 40px rgba(255, 0, 0, 0.6);
 }
 
 .form-change-name.hidden {
@@ -825,7 +962,7 @@ input[name="defense"]:checked + .label-zones::after {
 }
 
 .warnig-name {
-  color: #e44242;
+  color: var(--warning-color);
 }
 
 .warnig-name.hidden {

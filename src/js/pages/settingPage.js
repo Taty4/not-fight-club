@@ -22,6 +22,7 @@ export class SettingPage {
     namePage.textContent = "Настройки";
 
     this.settingContainer = document.createElement("div");
+    this.settingContainer.className = "setting-page-container";
 
     this.containerChangeName = document.createElement("div");
     this.containerChangeName.className = "setting-container-name";
@@ -79,6 +80,7 @@ export class SettingPage {
     this.inputEnableBgm = document.createElement("input");
     this.inputEnableBgm.type = "checkbox";
     this.inputEnableBgm.dataset.sound = "bgm";
+    this.inputEnableBgm.name = "sound-control";
     this.inputEnableBgm.checked = !this.enabledSounds.bgm;
 
     this.labelBgm = document.createElement("label");
@@ -97,6 +99,7 @@ export class SettingPage {
     this.inputEnableAction = document.createElement("input");
     this.inputEnableAction.type = "checkbox";
     this.inputEnableAction.dataset.sound = "action";
+    this.inputEnableAction.name = "sound-control";
     this.inputEnableAction.checked = !this.enabledSounds.action;
 
     this.labelActionSounds = document.createElement("label");
@@ -105,7 +108,11 @@ export class SettingPage {
     this.labelActionSounds.append(actionSoundsTxtEl, this.inputEnableAction);
     managerActionSounds.append(this.labelActionSounds);
 
-    this.containerChandeSounds.append(managerBgm, managerActionSounds);
+    this.containerChandeSounds.append(
+      soundsTitleEl,
+      managerBgm,
+      managerActionSounds,
+    );
 
     this.settingContainer.append(
       this.containerChangeName,

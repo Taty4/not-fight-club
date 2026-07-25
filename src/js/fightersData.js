@@ -1,9 +1,8 @@
-import hurt_1 from "../assets/audio/krik.mp3";
+import hurt_1 from "../assets/audio/death1.mp3";
 import hurt_2 from "../assets/audio/hurt.mp3";
 import hurt_3 from "../assets/audio/giant-dead.mp3";
 import hurt_4 from "../assets/audio/dead1.mp3";
 import hurt_5 from "../assets/audio/dead2.mp3";
-import hurt_6 from "../assets/audio/death1.mp3";
 
 import hit_1 from "../assets/audio/bulava.mp3";
 import hit_2 from "../assets/audio/hits.mp3";
@@ -14,7 +13,7 @@ import hit_5 from "../assets/audio/vzmaxmecha.mp3";
 export const FIGHTERS_DATABASE = {
   boss: {
     name: "Громбосс Судьбы",
-    titul: "Железное сердце",
+    titul: "Слепая ярость",
     description:
       "Загадочная фигура, чьё появление редко предвещает что-то хорошее.",
     key: "boss",
@@ -72,18 +71,18 @@ export const FIGHTERS_DATABASE = {
   },
   giant: {
     name: "Кривозуб Шустрый",
-    titul: "Железное сердце",
+    titul: "Тень безмолвия",
     description:
       "Зелёный обитатель севера, не отличающийся особой любовью к честным правилам.",
     key: "giant",
     avatarSrc: `${import.meta.env.BASE_URL}avatars/giant.webp`,
     imageSrc: `${import.meta.env.BASE_URL}sprites/giant/image.webp`,
-    health: 90,
-    currentHealth: 90,
+    health: 110,
+    currentHealth: 110,
     attack: 3,
     defense: 2,
     crit: 30,
-    damage: 15,
+    damage: 20,
     widthSprite: 420,
     heightSprite: 360,
     sprites: {
@@ -131,7 +130,7 @@ export const FIGHTERS_DATABASE = {
   leader: {
     name: "Брунгар Ледяной",
 
-    titul: "Железное сердце",
+    titul: "Крепость без стен",
     description:
       "Суровый северянин, привыкший к холоду, снегу и морским походам.",
     key: "leader",
@@ -248,7 +247,7 @@ export const FIGHTERS_DATABASE = {
 
   maya: {
     name: "Чакмо Каменный",
-    titul: "Железное сердце",
+    titul: "Пламя на снегу",
     description: "Таинственный воитель из далёких земель с древней историей.",
     key: "maya",
     avatarSrc: `${import.meta.env.BASE_URL}avatars/maya.webp`,
@@ -305,7 +304,7 @@ export const FIGHTERS_DATABASE = {
   },
   nordic: {
     name: "Рагнарик Суровый",
-    titul: "Железное сердце",
+    titul: "Осколок бури",
     description:
       "Житель северных земель, для которого суровый климат стал частью повседневной жизни.",
     key: "nordic",
@@ -315,8 +314,8 @@ export const FIGHTERS_DATABASE = {
     currentHealth: 115,
     attack: 2,
     defense: 2,
-    crit: 20,
-    damage: 30,
+    crit: 15,
+    damage: 25,
     widthSprite: 420,
     heightSprite: 360,
     sprites: {
@@ -358,7 +357,7 @@ export const FIGHTERS_DATABASE = {
     },
     sounds: {
       hit: hit_2,
-      hurt: hurt_6,
+      hurt: hurt_4,
     },
   },
 };

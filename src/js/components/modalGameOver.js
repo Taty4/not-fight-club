@@ -31,12 +31,14 @@ export class ModalGameOver {
 
   showModal(looser) {
     if (looser === "player") {
-      this.textModal.textContent = "Удача не на вашей стороне. Вы проиграли!";
+      this.textModal.textContent =
+        "Защита рухнула, битва проиграна. Сделай выводы и перекуй свое оружие!";
     } else if (looser === "enemy") {
       this.textModal.textContent =
-        "Удача сегодня повернулась к вам лицом. Вы победили";
+        "Твое сердце бьется в такт победе. Враг повержен к твоим ногам";
     } else {
-      this.textModal.textContent = "Сегодня никто не выжил!";
+      this.textModal.textContent =
+        "Оружие скрестилось в последний раз, оборвав две судьбы! Вы разделили одну смерть на двоих";
     }
 
     this.element.classList.add("visible");

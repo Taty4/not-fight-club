@@ -19,6 +19,7 @@ export class LoginPage {
 
     this.input = document.createElement("input");
     this.input.type = "text";
+    this.input.placeholder = "Введите имя";
     this.input.className = "input-login";
 
     this.warning = document.createElement("span");

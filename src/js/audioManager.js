@@ -49,11 +49,9 @@ export class audioManager {
       const soundsCharacter = data.sounds;
       for (const [name, src] of Object.entries(soundsCharacter)) {
         const soundName = `${key}_${name}`;
-        console.log(soundName, typeof src);
         this.loadSFX(soundName, src);
       }
     }
-    console.log(this.sfx);
   }
 
   playSFX(name) {
@@ -85,7 +83,6 @@ export class audioManager {
         .play()
         .then(() => {
           this.isMusicPlaying = true;
-          console.log("Музыка успешно запущена!");
         })
         .catch((err) => console.log("Браузер всё ещё блокирует звук:", err));
     }

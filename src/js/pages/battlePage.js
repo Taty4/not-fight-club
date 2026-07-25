@@ -101,7 +101,7 @@ export class BattlePage {
           if (log.blocked) {
             outcomeText = `, пробил защиту критическим ударом! Урон - <span class='damage'>${log.damage}</span>.`;
           } else {
-            outcomeText = `. Нанесен сокрушительный критический удар! Двойной урон - <span class='damage'>${log.damage}</span>.`;
+            outcomeText = `. Нанесен сокрушительный критический удар! Повышенный урон - <span class='damage'>${log.damage}</span>.`;
           }
         } else {
           if (log.blocked) {
@@ -400,7 +400,7 @@ class BattleLogic {
       let actualDamage = isBlocked ? 0 : damagePerHit;
 
       if (isCrit && !isBlocked) {
-        actualDamage = damagePerHit * 2;
+        actualDamage = damagePerHit * 1.5;
       }
       if (isCrit && isBlocked) {
         actualDamage = damagePerHit;

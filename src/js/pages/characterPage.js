@@ -33,8 +33,7 @@ export class CharacterPage {
     statisticTitle.textContent = "Cтатистика:";
 
     const currentNamePlayer = document.createElement("p");
-    currentNamePlayer.textContent =
-      JSON.parse(localStorage.getItem("username-taty4")) || "Пользователь";
+    currentNamePlayer.textContent = `Имя: ${JSON.parse(localStorage.getItem("username-taty4")) || "Пользователь"}`;
 
     const statisticUser = JSON.parse(
       localStorage.getItem("statisticUser-taty4"),
@@ -54,7 +53,7 @@ export class CharacterPage {
 
     const coutDrawEl = document.createElement("p");
     const counDraw = statisticUser.draw;
-    coutDrawEl.textContent = `Ничья: ${counDraw}`;
+    coutDrawEl.textContent = `Оба умерли: ${counDraw}`;
 
     conatinerStaticPlayer.append(
       statisticTitle,
@@ -157,7 +156,7 @@ export class CharacterPage {
 
     this.btnSaveCharacter = document.createElement("button");
     this.btnSaveCharacter.className = "btn-save-caharacter";
-    this.btnSaveCharacter.textContent = "✔ Выбран";
+    this.btnSaveCharacter.textContent = "Текущий";
     this.btnSaveCharacter.disabled = true;
 
     if (this.canNotChange) {
@@ -202,7 +201,7 @@ export class CharacterPage {
       this.warning.style.display = "none";
 
       if (this.showingCharacterKey === this.selectedCharacterKey) {
-        this.btnSaveCharacter.textContent = "✔ Выбран";
+        this.btnSaveCharacter.textContent = "Текущий";
         this.btnSaveCharacter.disabled = true;
       } else {
         this.btnSaveCharacter.textContent = "Выбрать";
@@ -216,7 +215,7 @@ export class CharacterPage {
 
     this.attackValue.textContent = this.selectedCharacter.attack;
     this.defenseValue.textContent = this.selectedCharacter.defense;
-    this.critValue.textContent = this.selectedCharacter.crit;
+    this.critValue.textContent = `${this.selectedCharacter.crit}%`;
     this.healthValue.textContent = this.selectedCharacter.health;
     this.damageValue.textContent = this.selectedCharacter.damage;
   }
@@ -228,7 +227,7 @@ export class CharacterPage {
 
     this.btnSaveCharacter.addEventListener("click", () => {
       this.selectedCharacterKey = this.showingCharacterKey;
-      this.btnSaveCharacter.textContent = "✔ Выбран";
+      this.btnSaveCharacter.textContent = "Текущий";
       this.btnSaveCharacter.disabled = true;
       localStorage.setItem(
         "currentCharacterKey-taty4",
